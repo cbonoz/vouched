@@ -7,6 +7,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Card, Divider } from "antd";
 
+const SECTIONS = [
+    'Vouched is a place to find jobs and opportunities through verified connections.',
+    'Vouched is a place to get endorsements from your network.',
+    'Vouched is a place to connect with people you know.',
+    'Vouched is a place to find people you want to know.',
+]
+
 
 export default function About() {
     const [loading, setLoading] = useState(false)
@@ -19,22 +26,28 @@ export default function About() {
             <br />
 
             <p>
-                <Image src="logo.png" alt="Vouched Logo" width={180} height={37} /><br /><br />
+                <Image src="logo.png" alt="Vouched Logo" width={140} height={40} /><br /><br />
             </p>
+
+            {SECTIONS.map((section, i) => {
+                return (
+                    <p key={i}>
+                        {section}
+                    </p>
+                )
+            })}
 
             {/* github */}
             <p>
-                {APP_NAME} is an open source project. You can find the code on GitHub here:&nbsp;
-                <a href="https://github.com/cbonoz/identity23" target="_blank">GitHub</a>&nbsp;
+                You can find the code on GitHub&nbsp;
+                <a style={{color: 'blue'}} href="https://github.com/cbonoz/vouched" target="_blank">here</a>.
             </p>
-
-            <p>Note this is a hackathon prototype and would require additional work to be mainnet ready. By uploading data you agree that this service is used as-is and that data may be compromised or shared outside the platform.</p>
 
             <p>
                 {/* Create profile */}
-                <Button type="primary" onClick={() => {
-                    router.push('/search')
-                }}>Search profiles</Button>&nbsp;
+                <Button type="primary" size="large" onClick={() => {
+                    router.push('/vouch')
+                }}>Vouch for a connection</Button>&nbsp;
 
 
             </p>

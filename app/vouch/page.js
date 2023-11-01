@@ -1,7 +1,7 @@
 'use client';
 
 import { useUser } from "@clerk/nextjs";
-import { Button, Card, Col, Input, Row, Steps } from "antd";
+import { Button, Card, Col, Divider, Input, Row, Steps } from "antd";
 import { useState } from "react";
 import { isEmpty, isValidEmail } from "../util";
 
@@ -44,12 +44,15 @@ const Vouch = () => {
             <Row gutter={[16, 16]}>
                 <Col span={16}>
                     <Card title="Vouch for a person in your network">
+                        <h3>Create a new vouch</h3>
 
-                            <label>Name</label>
-                            <br/>
+                        <br />
+                        <label>Name</label>
+                        <br />
                         <Input value={data.name} onChange={(e) => updateData('name', e.target.value)} placeholder="Name" /><br />
-                            <label>Email</label>
-                            <br/>
+                        <br />
+                        <label>Email</label>
+                        <br />
                         <Input value={data.email} onChange={(e) => updateData('email', e.target.value)} placeholder="Email"
                             // Trigger check of user on defocus
                             onBlur={() => {
@@ -67,9 +70,10 @@ const Vouch = () => {
                         {data.handle && <div>
                             <a href={'/profile/' + data.handle}>View profile</a>
                         </div>}
-                            <label>Message</label>
+                        <br />
+                        <label>Message</label>
                         <Input.TextArea value={data.message} onChange={(e) => updateData('message', e.target.value)} placeholder="Message" /><br />
-                        <br/>
+                        <Divider />
 
                         <Button size="large" onClick={submitVouch} disabled={!isComplete} type="primary">Submit</Button>
                     </Card>

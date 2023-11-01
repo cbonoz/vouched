@@ -88,12 +88,12 @@ a {
 }
 
 .container {
-  /* max-width: 1000px; */
+  max-width: 1000px;
   min-width: 80%;
   margin: 0 auto;
   flex-grow: 1;
   min-height: 80vh;
-  margin-top: 10px;
+  margin-top: 40px;
 }
 
 .success-text {
@@ -290,10 +290,6 @@ textarea {
   margin-right: 20px;
 }
 
-.standard-btn {
-  padding: 10px;
-  margin-top: 20px;
-}
 
 .prompt-section {
   margin-top: 40px;
