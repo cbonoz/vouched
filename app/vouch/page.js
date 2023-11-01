@@ -1,9 +1,10 @@
 'use client';
 
 import { useUser } from "@clerk/nextjs";
-import { Button, Card, Col, Divider, Input, Row, Steps } from "antd";
+import { Button, Card, Col, Divider, Input, Row, Steps, Tooltip } from "antd";
 import { useState } from "react";
 import { isEmpty, isValidEmail } from "../util";
+import { APP_NAME } from "../constants";
 
 const Vouch = () => {
     const { isSignedIn, user, isLoaded } = useUser();
@@ -44,16 +45,16 @@ const Vouch = () => {
             <Row gutter={[16, 16]}>
                 <Col span={16}>
                     <Card title="Vouch for a person in your network">
-                        <h3>Create a new vouch</h3>
+                        <h3>Create a new '{APP_NAME}' endorsement</h3>
 
                         <br />
                         <label>Name</label>
                         <br />
-                        <Input value={data.name} onChange={(e) => updateData('name', e.target.value)} placeholder="Name" /><br />
+                        <Input value={data.name} onChange={(e) => updateData('name', e.target.value)} placeholder="Enter person's name" /><br />
                         <br />
                         <label>Email</label>
                         <br />
-                        <Input value={data.email} onChange={(e) => updateData('email', e.target.value)} placeholder="Email"
+                        <Input value={data.email} onChange={(e) => updateData('email', e.target.value)} placeholder="Enter email"
                             // Trigger check of user on defocus
                             onBlur={() => {
                                 if (isValidEmail(data.email)) {
@@ -71,8 +72,11 @@ const Vouch = () => {
                             <a href={'/profile/' + data.handle}>View profile</a>
                         </div>}
                         <br />
+
                         <label>Message</label>
-                        <Input.TextArea value={data.message} onChange={(e) => updateData('message', e.target.value)} placeholder="Message" /><br />
+                        {/* <Tooltip title="This is the endorsement message that will show on the recipients profile.">
+                        </Tooltip> */}
+                        <Input.TextArea value={data.message} onChange={(e) => updateData('message', e.target.value)} placeholder="This is the endorsement message that would show on the recipient's profile" /><br />
                         <Divider />
 
                         <Button size="large" onClick={submitVouch} disabled={!isComplete} type="primary">Submit</Button>
@@ -82,8 +86,8 @@ const Vouch = () => {
                     <Card title="How it works">
 
                         <Steps direction="vertical" current={currentStep}>
-                            <Steps.Step title="Create" description="Vouch for a person in your network." />
-                            <Steps.Step title="Submit" description="Submit the vouch message. The recipient will get invited to the platform if not already." />
+                            <Steps.Step title="Create" description="Draft an endorsement message for a person in your network." />
+                            <Steps.Step title="Submit" description="Submit the message. The recipient will get invited to the platform if not already active." />
                             <Steps.Step title="Accept" description="Recipient is able to accept or decline the vouch." />
                         </Steps>
                     </Card>

@@ -10,9 +10,9 @@ import { useRouter } from 'next/navigation';
 
 // TODO: change
 const CHECKLIST_ITEMS = [
-  "Set up a searchable Vouched professional profile",
-  "Find jobs and opportunities through verified connections",
+  "Set up a shareable Vouched professional profile",
   "Get endorsements from your network",
+  "Find jobs and opportunities through verified connections",
 ];
 
 // const HERO_IMAGE = 'https://assets-v2.lottiefiles.com/a/b2e71c48-1173-11ee-af24-e38df89b1a8a/esieSHm0ao.gif'
@@ -37,7 +37,7 @@ const Home = () => {
             <p key={i}>
               <CheckCircleTwoTone twoToneColor="#00aa00" />
               &nbsp;
-              {item}
+              {item}.
             </p>
           );
         })}

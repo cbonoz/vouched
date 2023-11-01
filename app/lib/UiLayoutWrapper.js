@@ -21,7 +21,7 @@ function UiLayoutWrapper({ children }) {
     if (user) {
         menuItems.push({
             key: '/vouch',
-            label: <Link href="/vouch">Vouch</Link>,
+            label: <Link href="/vouch">Send Vouch</Link>,
             href: '/vouch',
         })
         menuItems.push({
