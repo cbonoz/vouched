@@ -8,8 +8,8 @@ import { useState } from "react";
 import { Card, Divider } from "antd";
 
 const SECTIONS = [
+    'Vouched is a place to get and send personal endorsements from your network.',
     'Vouched is a place to find jobs and opportunities through verified connections.',
-    'Vouched is a place to get endorsements from your network.',
     'Vouched is a place to connect with people you know.',
     'Vouched is a place to find people you want to know.',
 ]
@@ -22,12 +22,11 @@ export default function About() {
     const router = useRouter()
     return (
         <div className="about-page">
-            <br />
-            <br />
 
             <p>
-                <Image src="logo.png" alt="Vouched Logo" width={140} height={40} /><br /><br />
+                <Image src="logo.png" alt="Vouched Logo" width={210} height={60} />
             </p>
+            <Divider/>
 
             {SECTIONS.map((section, i) => {
                 return (

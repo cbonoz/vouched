@@ -21,19 +21,19 @@ function UiLayoutWrapper({ children }) {
     if (user) {
         menuItems.push({
             key: '/vouch',
-            label: <Link href="/vouch">Send Vouch</Link>,
+            label: <Link href="/vouch">Send Endorsement</Link>,
             href: '/vouch',
         })
         menuItems.push({
             key: '/settings',
-            label: <Link href="/settings">Settings</Link>,
+            label: <Link href="/settings">Manage account</Link>,
             href: '/settings',
         })
     }
 
     menuItems.push({
         key: '/about',
-        label: <Link href="/about">About</Link>,
+        label: <Link href="/about">About {APP_NAME}</Link>,
         href: '/about',
     })
 

@@ -3,13 +3,13 @@
 import { useUser } from "@clerk/nextjs";
 import { Button, Card, Col, Divider, Input, Row, Steps, Tooltip } from "antd";
 import { useState } from "react";
-import { isEmpty, isValidEmail } from "../util";
+import { isEmpty, isValidEmail, profileUrl } from "../util";
 import { APP_NAME } from "../constants";
 
 const Vouch = () => {
     const { isSignedIn, user, isLoaded } = useUser();
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({});
+    const [data, setData] = useState({name: ''});
     const [result, setResult] = useState({});
 
     const updateData = (key, value) => {
@@ -24,7 +24,7 @@ const Vouch = () => {
         return <Redirect to="/login" />;
     }
 
-    const isComplete = !isEmpty(data.name) && isValidEmail(data.email) && !isEmpty(data.message);
+    const isComplete = isValidEmail(data.email) && !isEmpty(data.message);
 
     const currentStep = result.status === 'success' ? 2 : isComplete ? 1 : 0;
 
@@ -47,10 +47,9 @@ const Vouch = () => {
                     <Card title="Vouch for a person in your network">
                         <h3>Create a new '{APP_NAME}' endorsement</h3>
 
+                        {/* <label>Name</label>
                         <br />
-                        <label>Name</label>
-                        <br />
-                        <Input value={data.name} onChange={(e) => updateData('name', e.target.value)} placeholder="Enter person's name" /><br />
+                        <Input value={data.name} onChange={(e) => updateData('name', e.target.value)} placeholder="Enter person's name" /><br /> */}
                         <br />
                         <label>Email</label>
                         <br />
@@ -69,7 +68,7 @@ const Vouch = () => {
                             }}
                         /><br />
                         {data.handle && <div>
-                            <a href={'/profile/' + data.handle}>View profile</a>
+                            <a href={profileUrl(data.handle)}>View profile</a>
                         </div>}
                         <br />
 
