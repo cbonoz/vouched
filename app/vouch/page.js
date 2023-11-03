@@ -3,14 +3,19 @@
 import { useUser } from "@clerk/nextjs";
 import { Button, Card, Col, Divider, Input, Row, Steps, Tooltip } from "antd";
 import { useState } from "react";
-import { isEmpty, isValidEmail, profileUrl } from "../util";
+import { humanError, isEmpty, isValidEmail, profileUrl } from "../util";
+import EndorsementRow from "../lib/EndorsementRow";
+import useAuthAxios from "../hooks/useAuthAxios";
 import { APP_NAME } from "../constants";
 
 const Vouch = () => {
     const { isSignedIn, user, isLoaded } = useUser();
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({name: ''});
+    const [data, setData] = useState({ name: '', handle: 'chris-b' });
+    const [error, setError] = useState()
     const [result, setResult] = useState({});
+
+    const { postEndorse, getUser } = useAuthAxios()
 
     const updateData = (key, value) => {
         setData({ ...data, [key]: value });
@@ -29,14 +34,17 @@ const Vouch = () => {
     const currentStep = result.status === 'success' ? 2 : isComplete ? 1 : 0;
 
     const submitVouch = async () => {
-        const res = await fetch('/api/vouch', {
-            method: 'POST',
-            body: JSON.stringify(data),
-        });
-
-        const result = await res.json();
-
-        setResult(result);
+        setLoading(true);
+        try {
+            const res = await postEndorse(data);
+            setResult(res);
+        } catch (err) {
+            console.error(err);
+            setError(humanError(err));
+        }
+        finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -55,16 +63,10 @@ const Vouch = () => {
                         <br />
                         <Input value={data.email} onChange={(e) => updateData('email', e.target.value)} placeholder="Enter email"
                             // Trigger check of user on defocus
-                            onBlur={() => {
-                                if (isValidEmail(data.email)) {
-                                    fetch('/api/checkUser?email=' + data.email)
-                                        .then(res => res.json())
-                                        .then(res => {
-                                            if (res.exists) {
-                                                updateData('handle', res.handle);
-                                            }
-                                        })
-                                }
+                            onBlur={async () => {
+                                const d = await getUser(data.email);
+                                console.log('found', data.email, d)
+                                updateData('user', d)
                             }}
                         /><br />
                         {data.handle && <div>
@@ -78,7 +80,19 @@ const Vouch = () => {
                         <Input.TextArea value={data.message} onChange={(e) => updateData('message', e.target.value)} placeholder="This is the endorsement message that would show on the recipient's profile" /><br />
                         <Divider />
 
-                        <Button size="large" onClick={submitVouch} disabled={!isComplete} type="primary">Submit</Button>
+                        {isComplete && <div className="endorsement-preview">
+                            <EndorsementRow preview={true} endorsement={{
+                                name: "John Doe",
+                                createdAt: new Date(),
+                                message: data.message,
+                                authorName: user.fullName,
+                                authorImage: user.publicMetadata.image
+                            }} />
+                        </div>}
+
+                        <Button size="large" onClick={submitVouch} disabled={!isComplete || loading} type="primary">Submit</Button>
+
+                        {error && <div>{error}</div>}
                     </Card>
                 </Col>
                 <Col span={8}>
