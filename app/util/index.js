@@ -1,9 +1,13 @@
 
 export const abbreviate = s => s ? `${s.substr(0, 6)}**` : ''
 
-export const formatDate = (d) => {
+export const formatDate = (d, onlyDate) => {
   if (!(d instanceof Date)) {
     d = d ? new Date(d) : new Date()
+  }
+
+  if (onlyDate) {
+    return d.toLocaleDateString()
   }
   return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`
 }

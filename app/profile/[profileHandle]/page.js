@@ -1,12 +1,13 @@
 'use client'
 
-import { Breadcrumb, Card, Row, Col, Spin, Statistic, Divider } from "antd"
+import { Breadcrumb, Card, Row, Col, Spin, Statistic, Divider, Button, Empty } from "antd"
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 import Image from "next/image"
 import { APP_NAME, DEMO_PROFILE } from "../../constants"
 import useAuthAxios from "../../hooks/useAuthAxios"
 import EndorsementRow from "../../lib/EndorsementRow"
+import { formatDate } from "../../util"
 
 
 export default function ProfilePage({ params }) {
@@ -16,8 +17,6 @@ export default function ProfilePage({ params }) {
     const [type, setType] = useState('received')
     const [error, setError] = useState()
     const { getProfile } = useAuthAxios()
-
-
 
     async function fetchProfile() {
         setLoading(true)
@@ -49,12 +48,14 @@ export default function ProfilePage({ params }) {
 
     const { user, endorsements } = profile
 
-    const userName = `${user.firstName} ${user.lastName}`
+
+    const isYou = user.firstName.indexOf('John') !== -1; // TODO:
+    const userName = `${user.firstName} ${user.lastName} ${isYou ? '(you)' : ''}`
 
     const cardTitle = userName ?? 'User profile';
     const breadcrumbs = [
         {
-            title: APP_NAME,
+            title: 'Home',
             href: '/'
         },
         {
@@ -68,7 +69,7 @@ export default function ProfilePage({ params }) {
             <Breadcrumb style={{ fontSize: 16 }} items={breadcrumbs} />
             <br />
 
-            <Card title={cardTitle}>
+            <Card title={`${APP_NAME} - ${cardTitle}`}>
                 <Row gutter={16}>
                     <Col span={8}>
                         <Image src={user?.image ?? '/profile.png'}
@@ -77,12 +78,24 @@ export default function ProfilePage({ params }) {
                             height={200}
                             alt={"profile"}
                         />
+                        <Divider />
+                        <h3 className='bold'>{userName}</h3>
+                        <h4>@{profileHandle}</h4>
+                        <br />
+                        {user.createdAt && <h4>Account created: {formatDate(user.createdAt, true)}</h4>}
+
+                        {!isYou && <Button type="primary" size="large" onClick={() => {
+                            window.location.href = `/vouch?handle=${profileHandle}`
+                        }}>Vouch for {userName}</Button>}
                     </Col>
                     <Col span={16}>
-                        <span>
-                            <span className='handle-header bold'>{userName}</span>
-                        </span>
-                        <br />
+
+                        <div className='handle-header bold'>Endorsements</div>
+
+                        {!endorsements && !loading && <div>
+
+                            <Empty description="No endorsements yet" />
+                        </div>}
 
                         {endorsements.map((endorsement, i) => {
                             return <div>

@@ -121,8 +121,10 @@ const Settings = () => {
                 {error && <div className="error-text">{error}</div>}
                 <br />
                 <Divider />
-                <h3>You must set a first name, last name, and profile image to activate your account</h3>
-                <Switch checked={user.unsafeMetadata?.isVerified} onChange={(e) => updateField('isVerified', e)} />&nbsp;Activate account
+                <h3>You must set a first name, last name, and profile image to activate your account and receive endorsements.</h3>
+                <br/>
+                <Switch size="large" checked={data.isActivated} onChange={(e) => updateField('isActivated', e)} />&nbsp;
+                {data.isActivated ? 'Profile page active' : 'Activate profile page'}
                 {/* <pre>{JSON.stringify(user, null, 4)}</pre> */}
 
             </Card>

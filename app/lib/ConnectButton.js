@@ -4,6 +4,7 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
+import { Button } from "antd";
 
 function ConnectButton({ buttonType = 'primary' }) {
 
@@ -14,7 +15,11 @@ function ConnectButton({ buttonType = 'primary' }) {
     </SignedIn>
     <SignedOut>
       {/* Signed out users get sign in button */}
-      <SignInButton />
+      <div >
+      <SignInButton >
+        <Button style={{display: 'block'}} type={buttonType}>Sign in</Button>
+      </SignInButton>
+      </div>
     </SignedOut>
   </div>
 

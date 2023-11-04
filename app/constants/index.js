@@ -8,6 +8,7 @@ export const DEMO_PROFILE = {
     "user": {
         "firstName": "John",
         "lastName": "Doe",
+        "createdAt": new Date()
     },
     "type": "received", // or "sent"
     "endorsements": [
@@ -15,6 +16,7 @@ export const DEMO_PROFILE = {
             "id": "123",
             "createdAt": new Date(),
             "message": "He is a great guy",
+            "authorHandle": "jane-doe",
             "authorName": "Jane Doe",
             "authorImage": "/profile.png"
         },

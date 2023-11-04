@@ -2,18 +2,32 @@
 
 import { useUser } from "@clerk/nextjs";
 import { Button, Card, Col, Divider, Input, Row, Steps, Tooltip } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { humanError, isEmpty, isValidEmail, profileUrl } from "../util";
 import EndorsementRow from "../lib/EndorsementRow";
 import useAuthAxios from "../hooks/useAuthAxios";
 import { APP_NAME } from "../constants";
+import { useSearchParams } from "next/navigation";
 
 const Vouch = () => {
+    const searchParams = useSearchParams();
     const { isSignedIn, user, isLoaded } = useUser();
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({ name: '', handle: 'chris-b' });
+    // Pull handle from query param
+    const [data, setData] = useState({ name: '' });
     const [error, setError] = useState()
     const [result, setResult] = useState({});
+
+
+    useEffect(() => {
+        if (searchParams.has('email')) {
+            const email = searchParams.get('email');
+            setData({ ...data, email })
+        } else if (searchParams.has('handle')) {
+            const handle = searchParams.get('handle');
+            setData({ ...data, handle })
+        }
+    }, [searchParams])
 
     const { postEndorse, getUser } = useAuthAxios()
 
