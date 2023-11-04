@@ -115,6 +115,15 @@ a {
   font-weight: bold;
 }
 
+.work-text {
+  margin-top: 5px;
+  font-size: 10px;
+}
+
+.create-vouch label {
+  font-weight: bold;
+}
+
 .preview {
   /* border: 1px black dashed; */
   /* padding: 10px; */

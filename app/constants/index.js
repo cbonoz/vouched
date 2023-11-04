@@ -15,10 +15,13 @@ export const DEMO_PROFILE = {
         {
             "id": "123",
             "createdAt": new Date(),
+            "email": "jane@acme.com",
             "message": "He is a great guy",
             "authorHandle": "jane-doe",
             "authorName": "Jane Doe",
-            "authorImage": "/profile.png"
+            "authorImage": "/profile.png",
+            "company": "Acme",
+            "duration": "5"
         },
         {
             "id": "124",

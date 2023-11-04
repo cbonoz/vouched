@@ -63,6 +63,8 @@ export const humanError = err => {
     message = 'Dataset not found. Do you have the correct url? Otherwise, try creating a new dataset.'
   } else if (message.indexOf('network changed') !== -1) {
     message = 'Network changed since page loaded, please refresh.'
+  } else if (message.indexOf('Network Error') !== -1) { 
+    message = 'Could not connect to server. Please try again later.'
   }
   return message
 }

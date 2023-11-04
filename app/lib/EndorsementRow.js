@@ -10,13 +10,14 @@ const EndorsementRow = ({ endorsement, defaultName, preview = false }) => {
     const { user} = useUser()
 
 
-    const { name, createdAt, message, authorHandle, authorName, authorImage } = endorsement;
+    const { name, createdAt, company, duration, message, authorHandle, authorName, authorImage } = endorsement;
 
     const formattedDate = formatDate(createdAt);
     const authorImageSrc = authorImage ?? '/profile.png';
     const authorImageAlt = `${authorName}'s profile image`;
     const authorHeading = authorHandle ? <a style={{color: 'blue'}} href={`/profile/${authorHandle}`}>{authorName}</a> : <span>{authorName}</span>;
     const endorseText = <span>{authorHeading} endorsed {name ?? defaultName}</span>;
+    const workText = <span>{authorName} worked with {name ?? defaultName} at {company} for {duration} years.</span>
 
     // TODO:
     const isOwner = true || user?.unsafeMetadata.handle === authorHandle;
@@ -51,9 +52,10 @@ const EndorsementRow = ({ endorsement, defaultName, preview = false }) => {
                     />
                 }
                 content={
-                    <p>
-                        {message}
-                    </p>
+                    <span>
+                    <p>{message}</p>
+                    {company && <p className="work-text">{workText}</p>}
+                    </span>
                 }
                 datetime={
                     <span>
