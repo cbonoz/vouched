@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
       {/* <link rel="manifest" href="/favicons/manifest.json" /> */}
 
       <title>Vouched | A private referral network</title>
-      <meta name="description" content="Privy Auth Starter" />
+      <meta name="description" content="Trusted endorsements from your professional network" />
     </head>
     <body>
     <ClerkProvider>
