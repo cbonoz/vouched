@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from "@clerk/nextjs";
+import { SignIn, useUser } from "@clerk/nextjs";
 import { Button, Card, Col, Divider, Input, Row, Steps, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { humanError, isEmpty, isValidEmail, profileUrl } from "../util";
@@ -40,7 +40,7 @@ const Vouch = () => {
     }
 
     if (!isSignedIn) {
-        return <Redirect to="/login" />;
+        return <SignIn path="/vouch" routing="path" />
     }
 
     const isComplete = isValidEmail(data.email) && !isEmpty(data.message);
@@ -79,9 +79,9 @@ const Vouch = () => {
                             // Trigger check of user on defocus
                             onBlur={async () => {
                                 try {
-                                const d = await getUser(data.email);
-                                console.log('found', data.email, d)
-                                updateData('user', d)
+                                    const d = await getUser(data.email);
+                                    console.log('found', data.email, d)
+                                    updateData('user', d)
                                 } catch (err) {
                                     console.error('not found', data.email)
                                 }
@@ -96,6 +96,12 @@ const Vouch = () => {
                         {/* <Tooltip title="This is the endorsement message that will show on the recipients profile.">
                         </Tooltip> */}
                         <Input.TextArea value={data.message} onChange={(e) => updateData('message', e.target.value)} placeholder="This is the endorsement message that would show on the recipient's profile" /><br />
+
+                        {/* <label>Which company are you connected to this person?</label>
+                        {/* <Tooltip title="This is the endorsement message that will show on the recipients profile.">
+                        </Tooltip> */}
+                        {/* <Input.TextArea value={data.message} onChange={(e) => updateData('message', e.target.value)} placeholder="This is the endorsement message that would show on the recipient's profile" /><br /> */}
+
                         <Divider />
 
                         {isComplete && <div className="endorsement-preview">
@@ -108,19 +114,31 @@ const Vouch = () => {
                             }} />
                         </div>}
 
+      
                         <Button size="large" onClick={submitVouch} disabled={!isComplete || loading} type="primary">Submit</Button>
+                        <br />
+                        <br />
 
-                        {error && <div>{error}</div>}
+                        {error && <div className="error-text">Error: {error}</div>}
                     </Card>
                 </Col>
                 <Col span={8}>
                     <Card title="How it works">
 
-                        <Steps direction="vertical" current={currentStep}>
-                            <Steps.Step title="Create" description="Draft an endorsement message for a person in your network." />
-                            <Steps.Step title="Submit" description="Submit the message. The recipient will get invited to the platform if not already active." />
-                            <Steps.Step title="Accept" description="Recipient is able to accept or decline the vouch." />
-                        </Steps>
+                        <Steps direction="vertical" current={currentStep}
+                            items={[{
+                                title: "Create",
+                                description: "Draft an endorsement message for a person in your network."
+                            },
+                            {
+                                title: "Submit",
+                                description: "Submit the message. The recipient will get invited to the platform if not already active."
+                            },
+                            {
+                                title: "Accept",
+                                description: "Recipient is able to accept or decline the vouch."
+
+                            }]} />
                     </Card>
                 </Col>
             </Row>

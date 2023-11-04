@@ -56,7 +56,9 @@ export const isEmpty = (r) => {
   return !r || r.length === 0
 }
 
-export const humanError = message => {
+export const humanError = err => {
+  let message = err.message || JSON.stringify(err);
+
   if (message.indexOf('404') !== -1) {
     message = 'Dataset not found. Do you have the correct url? Otherwise, try creating a new dataset.'
   } else if (message.indexOf('network changed') !== -1) {

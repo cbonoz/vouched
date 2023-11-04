@@ -1,33 +1,12 @@
 'use client';
 
-import { UserProfile, useUser } from "@clerk/nextjs";
+import { SignIn, UserProfile, useUser } from "@clerk/nextjs";
+import { FIELDS } from '../constants';
 import { useEffect, useState } from "react";
 import { Button, Card, Divider, Input, Switch } from "antd";
 import { capitalize, humanError, isEmpty, profileUrl } from "../util";
 
-const FIELDS = [
-    {
-        'label': 'email',
-        'key': 'email',
-        'disabled': true
-    },
-    {
-        'label': 'first name',
-        'key': 'firstName'
-    },
-    {
-        'label': 'last name',
-        'key': 'lastName'
-    },
-    {
-        'label': 'handle (defines your url, must be unique)',
-        'key': 'username'
-    },
-    //  {
-    //     'label': 'image url',
-    //     'key': 'imageUrl'
-    // }
-]
+
 
 const Settings = () => {
     const { isSignedIn, user, isLoaded } = useUser();
@@ -94,7 +73,7 @@ const Settings = () => {
     }
 
     if (!isSignedIn) {
-        return <Redirect to="/login" />;
+        return <SignIn path="/settings" routing="path" />
     }
 
     const isComplete = !isEmpty(data.firstName) && !isEmpty(user.lastName) && !isEmpty(user.unsafeMetadata?.handle);
@@ -103,6 +82,8 @@ const Settings = () => {
         <div>
 
             <Card title="Manage account">
+            <h3>You must set a first name, last name, and profile image to activate your account and receive endorsements.</h3>
+                <br/>
                 {FIELDS.map((field, i) => {
                     const { label, key, disabled } = field
                     return <div key={i}>
@@ -121,8 +102,7 @@ const Settings = () => {
                 {error && <div className="error-text">{error}</div>}
                 <br />
                 <Divider />
-                <h3>You must set a first name, last name, and profile image to activate your account and receive endorsements.</h3>
-                <br/>
+         
                 <Switch size="large" checked={data.isActivated} onChange={(e) => updateField('isActivated', e)} />&nbsp;
                 {data.isActivated ? 'Profile page active' : 'Activate profile page'}
                 {/* <pre>{JSON.stringify(user, null, 4)}</pre> */}

@@ -36,3 +36,23 @@ export const DEMO_PROFILE = {
         }
     ]
 }
+
+export const FIELDS = [
+    {
+        'label': 'email',
+        'key': 'email',
+        'disabled': true
+    },
+    {
+        'label': 'first name',
+        'key': 'firstName'
+    },
+    {
+        'label': 'last name',
+        'key': 'lastName'
+    },
+    {
+        'label': 'handle (defines your url, must be unique)',
+        'key': 'username'
+    },
+]
