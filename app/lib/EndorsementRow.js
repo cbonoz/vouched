@@ -28,7 +28,7 @@ const EndorsementRow = ({ endorsement, defaultName, preview = false }) => {
     const remove = () => alert('TODO: remove')
 
     if (isOwner && !preview) {
-        actions.push(<span key="comment-basic-approve" onClick={approve}>Approve</span>)
+        actions.push(<span key="comment-basic-approve" onClick={approve}>Make Public</span>)
         actions.push(<span key="comment-basic-delete" onClick={remove}>Delete</span>)
     }
 
