@@ -115,6 +115,16 @@ a {
   font-weight: bold;
 }
 
+.preview {
+  /* border: 1px black dashed; */
+  /* padding: 10px; */
+}
+
+/* hide side element */
+div.cl-card > div:last-child {
+  display: none;
+}
+
 .handle-header {
   font-size: 32px;
 }

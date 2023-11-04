@@ -2,6 +2,7 @@ import { formatDate } from "../util";
 import { Tooltip, Avatar } from 'antd';
 // antd compatible
 import { Comment } from '@ant-design/compatible';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { useUser } from "@clerk/nextjs";
 
 
@@ -25,16 +26,20 @@ const EndorsementRow = ({ endorsement, defaultName, preview = false }) => {
     const approve = () => alert('TODO: approve')
     const remove = () => alert('TODO: remove')
 
-    if (isOwner) {
+    if (isOwner && !preview) {
         actions.push(<span key="comment-basic-approve" onClick={approve}>Approve</span>)
         actions.push(<span key="comment-basic-delete" onClick={remove}>Delete</span>)
     }
 
     return (
-        <span className="endorsement-row">
-            {preview && <span>
-                Preview</span>
-            }
+        <span className={`endorsement-row ${preview ? 'preview' : ''}`}>
+            {preview && <span>Endorsement Preview&nbsp;
+
+                <Tooltip className="pointer" title={'This is how your endorsement will appear on their profile page once approved'}>
+                    <InfoCircleOutlined />
+                </Tooltip>
+                
+                </span>}
 
             <Comment
             actions={actions}

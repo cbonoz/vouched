@@ -78,9 +78,13 @@ const Vouch = () => {
                         <Input value={data.email} onChange={(e) => updateData('email', e.target.value)} placeholder="Enter email"
                             // Trigger check of user on defocus
                             onBlur={async () => {
+                                try {
                                 const d = await getUser(data.email);
                                 console.log('found', data.email, d)
                                 updateData('user', d)
+                                } catch (err) {
+                                    console.error('not found', data.email)
+                                }
                             }}
                         /><br />
                         {data.handle && <div>

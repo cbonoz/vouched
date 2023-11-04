@@ -102,7 +102,7 @@ const Settings = () => {
     return (
         <div>
 
-            <Card title="User settings">
+            <Card title="Manage account">
                 {FIELDS.map((field, i) => {
                     const { label, key, disabled } = field
                     return <div key={i}>
