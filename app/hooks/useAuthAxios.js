@@ -3,7 +3,7 @@
 import { useAuth, } from '@clerk/nextjs';
 import axios from 'axios'
 
-const baseUrl = process.env.NODE_ENV === 'production' ? 'https://vouched.vercel.app' : 'http://localhost:8001';
+const baseUrl = process.env.NODE_ENV === 'production' ? 'https://usevouched.com' : 'http://localhost:3001';
 
 const useAuthAxios = () => {
     const { getToken } = useAuth();
