@@ -7,10 +7,11 @@ const nextConfig = {
       // ignore eslint during build process
       ignoreDuringBuilds: true,
     },
-    publicRuntimeConfig: 'edge',
-    serverRuntimeConfig: 'edge',
-    experimental: {
+    publicRuntimeConfig: {
       runtime: 'edge',
+    },
+    serverRuntimeConfig: {
+      runtime: 'edge'
     }
   }
 
