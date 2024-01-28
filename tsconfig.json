@@ -27,8 +27,10 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "contracts/hardhat.config.ts"  ],
+    "**/*.tsx",
+    "contracts/hardhat.config.ts",
+    "out/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
