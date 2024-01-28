@@ -7,12 +7,6 @@ const nextConfig = {
       // ignore eslint during build process
       ignoreDuringBuilds: true,
     },
-    publicRuntimeConfig: {
-      runtime: 'edge',
-    },
-    serverRuntimeConfig: {
-      runtime: 'edge'
-    }
   }
 
 module.exports = nextConfig
