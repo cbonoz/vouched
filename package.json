@@ -13,6 +13,7 @@
     "@ant-design/cssinjs": "^1.17.0",
     "@clerk/clerk-js": "^4.64.1",
     "@clerk/nextjs": "^4.26.1",
+    "@cloudflare/next-on-pages": "^1.8.5",
     "antd": "^5.8.5",
     "axios": "^1.5.1",
     "encoding": "^0.1.13",

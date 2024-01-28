@@ -3,6 +3,7 @@ import UiLayoutWrapper from './lib/UiLayoutWrapper';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 
+export const runtime = 'edge';
 
 export default function RootLayout({ children }) {
 
