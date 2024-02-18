@@ -35,7 +35,8 @@ export default function IndexPage() {
             {!isSignedIn && (
               <Link href="/sign-in">
                 <Button className={buttonVariants({ variant: "default" })}>
-                  Get Started
+                  {/* Get Started */}
+                  Coming Soon
                 </Button>
               </Link>
             )}
