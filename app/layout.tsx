@@ -13,6 +13,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 import { EndorsementsProvider } from "./context/endorsements"
 
+export const runtime = "edge"
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
