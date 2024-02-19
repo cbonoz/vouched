@@ -11,8 +11,15 @@ const EndorsementRow = ({ endorsement }: { endorsement: Endorsement }) => {
   // Split skills by comma and strip whitespace
   const skills = endorsement.skills.split(",").map((skill) => skill.trim())
 
+  const titleRow = (
+    <div className="flex justify-between">
+      <div className="font-bold">{fullName}</div>
+      <div>Endorsed: {formatDate(endorsement.createdAt, true)}</div>
+    </div>
+  )
+
   return (
-    <BasicCard title={fullName} className="p-4">
+    <BasicCard title={titleRow} className="p-4">
       <div>
         <div className="text-sm">
           <div className="my-1 font-bold">{endorsement.message}</div>
@@ -30,7 +37,7 @@ const EndorsementRow = ({ endorsement }: { endorsement: Endorsement }) => {
             ))}
           </div>
           <div>Relationship: {endorsement.relationship}</div>
-          <div>Endorsed on: {formatDate(endorsement.createdAt, true)}</div>
+          {/* <div>Endorsed on: {formatDate(endorsement.createdAt, true)}</div> */}
         </div>
       </div>
     </BasicCard>
