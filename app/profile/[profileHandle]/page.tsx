@@ -52,7 +52,9 @@ export default function ProfilePage({ params }: Props) {
     }
     try {
       await requestAccess(profileHandle, message, emailValue)
-      alert("Request sent")
+      alert(
+        "Request sent. You will receive an email when your request is accepted or rejected."
+      )
       setShowAccessModal(false)
     } catch (err) {
       console.error("error requesting access", err)
