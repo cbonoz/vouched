@@ -73,8 +73,9 @@ const AccessRequests = () => {
                   </span>
                 )}
                 {!isApproved && (
-                  <span>
-                    <span>New Access Request</span>
+                  <div>
+                    <div>New Access Request</div>
+                    <br />
                     <Button
                       onClick={async () => {
                         await acceptRequest(request.id)
@@ -83,7 +84,7 @@ const AccessRequests = () => {
                     >
                       Accept request
                     </Button>
-                  </span>
+                  </div>
                 )}
 
                 <span>
