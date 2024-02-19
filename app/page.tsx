@@ -1,15 +1,30 @@
 "use client"
 
+import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useUser } from "@clerk/nextjs"
 
 import { siteConfig } from "@/config/site"
+import { axiosInstance } from "@/lib/api"
+import { isEmpty } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { Toaster } from "@/components/ui/toaster"
 import { Icons } from "@/components/icons"
 
 export default function IndexPage() {
+  const [homeProfiles, setHomeProfiles] = useState<any[]>([])
+
+  useEffect(() => {
+    async function fetchHomeProfiles() {
+      const { data } = await axiosInstance.get("/public/homepage-profiles")
+      // log
+      console.log("data", data)
+      setHomeProfiles(data)
+    }
+    fetchHomeProfiles()
+  }, [])
   const { isSignedIn, user, isLoaded } = useUser()
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -71,6 +86,41 @@ export default function IndexPage() {
           />
         </div>
       </div>
+      <Separator className="my-4" />
+
+      {!isEmpty(homeProfiles) && (
+        <div>
+          <div className="text-3xl font-bold content-center">Our members</div>
+          <div>
+            {homeProfiles.map((profile, index) => (
+              <div
+                key={index}
+                className="my-4 cursor-pointer"
+                onClick={() => {
+                  window.location.href = `/profile/${profile.handle}`
+                }}
+              >
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={profile.imageUrl}
+                    width="64"
+                    height="64"
+                    className="rounded-full"
+                    alt="profile"
+                  />
+                  <div>
+                    <div className="text-2xl font-bold">
+                      {profile.firstName} {profile.lastName}
+                    </div>
+                    <div>{profile.title}</div>
+                    <div>{profile.bio}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <Toaster />
     </section>
   )

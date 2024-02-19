@@ -85,7 +85,8 @@ export const humanError = (err: any) => {
   } else if (statusCode === 409) {
     message = "Conflict. Please try again later."
   } else if (message.indexOf("404") !== -1) {
-    message = "Server not reachable. Please try again later."
+    message =
+      "Could not find the requested item. This entry may not exist or may have moved"
   } else if (message.indexOf("Network Error") !== -1) {
     message = "Could not connect to server. Please try again later."
   }

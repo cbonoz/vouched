@@ -14,6 +14,16 @@ const nextConfig = {
         hostname: "img.clerk.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "media.licdn.com",
+        port: "",
+      },
     ],
   },
 }
