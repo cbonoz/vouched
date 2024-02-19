@@ -11,7 +11,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import EndorsementRow from "@/components/core/EndorsementRow"
-import { createDemoProfile } from "@/app/constants/placeholder"
 
 import useAuthAxios from "../../../hooks/useAuthAxios"
 

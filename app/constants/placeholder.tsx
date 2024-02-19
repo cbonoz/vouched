@@ -14,29 +14,6 @@ export const createDemoProfile = (
       firstName: "Demo",
       lastName: "User",
     },
-    endorsements: [
-      {
-        id: 1,
-        handle: "endorser",
-        avatar: "https://i.pravatar.cc/40",
-        name: "John Smith",
-        relationship: "Colleague",
-        message: "This is a demo endorsement.",
-        endorserId: 123,
-        approvedAt: d,
-        createdAt: d,
-      },
-      {
-        id: 2,
-        handle: "endorser",
-        endorserId: 123,
-        avatar: "https://i.pravatar.cc/40",
-        name: "John Smith",
-        relationship: "Colleague",
-        message: "This is a demo endorsement.",
-        approvedAt: undefined,
-        createdAt: d,
-      },
-    ],
+    endorsements: [],
   }
 }
