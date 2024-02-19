@@ -9,6 +9,11 @@ const nextConfig = {
         hostname: "i.pravatar.cc",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",
+        port: "",
+      },
     ],
   },
 }

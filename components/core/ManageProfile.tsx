@@ -2,6 +2,7 @@
 
 import { get } from "http"
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { ClerkLoading, SignIn, UserProfile, useUser } from "@clerk/nextjs"
 import { Label } from "@radix-ui/react-label"
@@ -26,6 +27,7 @@ const ManageProfile = () => {
   const { isSignedIn, user, isLoaded } = useUser()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [resultText, setResultText] = useState<string>("")
   const [error, setError] = useState<string | undefined>()
   const [data, setData] = useState<any>({})
 
@@ -55,6 +57,7 @@ const ManageProfile = () => {
   }, [user, isLoaded])
 
   function updateField(key: string, value: any) {
+    setResultText("You must hit save for any changes to take effect")
     setData({ ...data, [key]: value })
   }
 
@@ -86,6 +89,7 @@ const ManageProfile = () => {
     if (!validateData()) {
       return
     }
+    setResultText("")
     setSaving(true)
 
     try {
@@ -165,7 +169,6 @@ const ManageProfile = () => {
               className="Input"
             />
           </div>
-
           <div className="py-2">
             <Label htmlFor="title">
               Enter title
@@ -181,7 +184,6 @@ const ManageProfile = () => {
               className="Input"
             />
           </div>
-
           <div className="py-2">
             <Label htmlFor="bio">
               Enter bio
@@ -198,7 +200,6 @@ const ManageProfile = () => {
               className="Input"
             />
           </div>
-
           <div className="py-2">
             <Label htmlFor="bio">
               Enter agreement text
@@ -230,14 +231,20 @@ const ManageProfile = () => {
               className="Input"
             />
           </div>
-
           <div className="my-4">
             Update your profile image by clicking the user icon in the top right
-            of the page.
+            of the page. Hit save below and ensure an image icon below displays.
+            <div className="profile-image-preview max-w-[64px]">
+              <Image
+                src={data.imageUrl || ""}
+                alt="Profile image"
+                width="64"
+                height="64"
+                className="my-2 h-unset rounded-full"
+              />
+            </div>
           </div>
-
           {/* handle */}
-
           <div className="my-2 flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
             <div className="space-y-0.5">
               <Label className="text-xl font-bold">Activate account page</Label>
@@ -264,16 +271,28 @@ const ManageProfile = () => {
               }
             />
           </div>
-
           <Button disabled={loading || saving} type="submit" onClick={save}>
             Save
           </Button>
+          {isProfileActivated && (
+            <div className="my-2">
+              <Link
+                href={profileUrl(data.handle)}
+                className="underline text-blue-500"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View profile page
+              </Link>
+            </div>
+          )}
         </div>
       )}
       {loading && <div>Loading...</div>}
       <div className="my-4 max-w-[400px]">
         {error && <div className="text-red-500">{error}</div>}
       </div>
+      {resultText && <div className="text-med font-bold">{resultText}</div>}
     </BasicCard>
   )
 }

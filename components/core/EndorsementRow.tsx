@@ -1,3 +1,5 @@
+import { Separator } from "@radix-ui/react-separator"
+
 import { Endorsement } from "@/lib/types"
 import { formatDate } from "@/lib/utils"
 
@@ -12,10 +14,12 @@ const EndorsementRow = ({ endorsement }: { endorsement: Endorsement }) => {
   return (
     <BasicCard title={fullName} className="p-4">
       <div>
-        <div>
-          <div className="my-2">{endorsement.message}</div>
+        <div className="text-sm">
+          <div className="my-1 font-bold">{endorsement.message}</div>
+          <hr />
           <div className="my-2">
             {/* skill chips */}
+            Skills:&nbsp;
             {skills.map((skill, i) => (
               <span
                 key={i}

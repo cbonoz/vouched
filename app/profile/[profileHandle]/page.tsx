@@ -1,11 +1,21 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
+import { TrashIcon } from "lucide-react"
 
 import { getNameFromUser, humanError, isEmpty, isValidEmail } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -29,6 +39,7 @@ export default function ProfilePage({ params }: Props) {
   const [message, setMessage] = useState("")
   const [setCorrectCode, setSetCorrectCode] = useState("")
   const [showAccessModal, setShowAccessModal] = useState(false)
+  const [skillFilter, setSkillFilter] = useState("")
   const [code, setCode] = useState("")
   const [type, setType] = useState("received")
   const [error, setError] = useState()
@@ -40,8 +51,9 @@ export default function ProfilePage({ params }: Props) {
       return
     }
     try {
-      await requestAccess(profileHandle, emailValue, message)
+      await requestAccess(profileHandle, message, emailValue)
       alert("Request sent")
+      setShowAccessModal(false)
     } catch (err) {
       console.error("error requesting access", err)
       alert(humanError(err))
@@ -102,6 +114,24 @@ export default function ProfilePage({ params }: Props) {
 
   const fullName = getNameFromUser(user)
   const hasEndorsements = !isEmpty(endorsements)
+
+  let filteredEndorsements = endorsements
+  if (skillFilter) {
+    filteredEndorsements = profile.endorsements.filter(
+      (e: any) => e.skills && e.skills.includes(skillFilter)
+    )
+  }
+
+  const skillOptions = (endorsements || []).reduce((acc: any, e: any) => {
+    if (e.skills) {
+      e.skills.split(",").forEach((s: string) => {
+        if (!acc.includes(s)) {
+          acc.push(s)
+        }
+      })
+    }
+    return acc
+  }, [])
 
   return (
     <div>
@@ -172,26 +202,54 @@ export default function ProfilePage({ params }: Props) {
               </Button>
             </div>
           )}
-          {hasEndorsements &&
-            !loading &&
-            endorsements.map((endorsement: any) => {
-              return (
-                <span key={endorsement.id}>
-                  <EndorsementRow endorsement={endorsement} />
-                </span>
+          {hasEndorsements && !loading && (
+            <div>
+              <div className="flex">
+                <Select
+                  value={skillFilter}
+                  onValueChange={(s) => setSkillFilter(s)}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select skill to filter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {skillOptions.map((skill: string) => (
+                      <SelectItem key={skill} value={skill}>
+                        {skill}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {skillFilter && (
+                  // align center
+                  <TrashIcon
+                    className="pt-1 cursor-pointer ml-2 text-red-500 size-8"
+                    onClick={() => setSkillFilter("")}
+                  />
+                )}
+              </div>
+              <div className="mt-2">
+                {filteredEndorsements.map((endorsement: any) => {
+                  return (
+                    <span key={endorsement.id}>
+                      <EndorsementRow endorsement={endorsement} />
+                    </span>
 
-                // <RenderObject
-                //   obj={endorsement}
-                //   keys={[
-                //     "firstName",
-                //     "lastName",
-                //     "message",
-                //     "relationship",
-                //     "createdAt",
-                //   ]}
-                // />
-              )
-            })}
+                    // <RenderObject
+                    //   obj={endorsement}
+                    //   keys={[
+                    //     "firstName",
+                    //     "lastName",
+                    //     "message",
+                    //     "relationship",
+                    //     "createdAt",
+                    //   ]}
+                    // />
+                  )
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -223,7 +281,7 @@ export default function ProfilePage({ params }: Props) {
               </div>
 
               <Input
-                value={email}
+                value={emailValue}
                 onChange={(e) => setEmailValue(e.target.value)}
                 placeholder="Enter your email"
                 className="my-4"

@@ -82,12 +82,10 @@ export function EndorsementsProvider({ children }: Props) {
 
   const acceptRequest = async (id: string) => {
     await modifyRequest(id, "accept")
-    await getEndorsements()
   }
 
   const rejectRequest = async (id: string) => {
     await modifyRequest(id, "reject")
-    await getEndorsements()
   }
 
   const getEndorsements = async () => {

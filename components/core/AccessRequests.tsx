@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import RenderResult from "next/dist/server/render-result"
 import { SignIn, useUser } from "@clerk/nextjs"
-import { CheckCheckIcon, Trash, TrashIcon } from "lucide-react"
+import { CheckCheckIcon, CheckIcon, Trash, TrashIcon } from "lucide-react"
 
 import { capitalize, humanError, isEmpty, profileUrl } from "@/lib/utils"
 import useAuthAxios from "@/hooks/useAuthAxios"
@@ -56,28 +56,42 @@ const AccessRequests = () => {
               </p>
             </div>
           )}
+          {hasRequests && (
+            <div className="text-2xl my-2">
+              New access requests will appear on this page.
+            </div>
+          )}
           {accessRequests.map((request: any) => {
             const isApproved = !!request.approvedAt
             const actionRow = (
               // align to fill row
               <div className="flex justify-between">
-                <span>Access Request</span>
+                {isApproved && (
+                  <span className="text-green-500 flex">
+                    Access Active&nbsp;
+                    <CheckIcon size={24} />
+                  </span>
+                )}
                 {!isApproved && (
                   <span>
-                    <Button onClick={() => acceptRequest(request.id)}>
+                    <span>New Access Request</span>
+                    <Button
+                      onClick={async () => {
+                        await acceptRequest(request.id)
+                        await getAccessRequests()
+                      }}
+                    >
                       Accept request
                     </Button>
                   </span>
                 )}
-                {isApproved && (
-                  <span className="text-green-500">
-                    Active&nbsp;
-                    <CheckCheckIcon size={24} />
-                  </span>
-                )}
+
                 <span>
                   <button
-                    onClick={() => rejectRequest(request.id)}
+                    onClick={async () => {
+                      await rejectRequest(request.id)
+                      await getAccessRequests()
+                    }}
                     className="text-red-500"
                   >
                     <TrashIcon size={24} />
