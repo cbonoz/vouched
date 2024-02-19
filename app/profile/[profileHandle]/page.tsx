@@ -186,7 +186,7 @@ export default function ProfilePage({ params }: Props) {
               <Input
                 value={emailValue}
                 onChange={(e) => setEmailValue(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="Enter your email to unlock or request access"
                 className="my-4"
               />
 
