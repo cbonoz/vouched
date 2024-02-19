@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ClerkLoading, SignIn, UserProfile, useUser } from "@clerk/nextjs"
+import { UserResource } from "@clerk/types"
 import { Label } from "@radix-ui/react-label"
 
 import { siteConfig } from "@/config/site"
@@ -34,26 +35,29 @@ const ManageProfile = () => {
   const { toast } = useToast()
 
   const { authAxios } = useAuthAxios()
+
+  async function getUserData(u: UserResource) {
+    setLoading(true)
+    try {
+      const response = await authAxios.get(`/user/me`)
+      const userData = response.data
+      setData({
+        ...userData,
+        u,
+      })
+    } catch (e) {
+      console.error(e)
+      setError(humanError(e))
+    } finally {
+      setLoading(false)
+    }
+  }
   useEffect(() => {
     if (!isLoaded || !user) {
       return
     }
-    async function getUserData() {
-      setLoading(true)
-      try {
-        const response = await authAxios.get(`/user/me`)
-        const userData = response.data
-        setData({
-          ...userData,
-          user,
-        })
-      } catch (e) {
-        console.error(e)
-      } finally {
-        setLoading(false)
-      }
-    }
-    getUserData()
+
+    getUserData(user)
   }, [user, isLoaded])
 
   function updateField(key: string, value: any) {
@@ -107,6 +111,7 @@ const ManageProfile = () => {
         description: "Your profile has been updated",
         duration: 1500,
       })
+      await getUserData(user)
     } catch (e) {
       setError(humanError(e))
       console.log(e)
@@ -234,6 +239,8 @@ const ManageProfile = () => {
           <div className="my-4">
             Update your profile image by clicking the user icon in the top right
             of the page. Hit save below and ensure an image icon below displays.
+            <br />
+            Ideal image aspect ratio should be 1:1.
             <div className="profile-image-preview max-w-[64px]">
               <Image
                 src={data.imageUrl || ""}

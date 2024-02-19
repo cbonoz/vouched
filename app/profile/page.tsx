@@ -19,20 +19,19 @@ import { useEndorsements } from "../context/endorsements"
 
 const ProfileSettings = () => {
   const { user, isLoaded, isSignedIn } = useUser()
+  const [selectedTab, setSelectedTab] = useState("")
 
   const { endorsements } = useEndorsements()
 
   useEffect(() => {
-    if (!isLoaded) {
+    if (!isLoaded || !selectedTab) {
       const getTab = () => {
         const tab = new URLSearchParams(window.location.search).get("tab")
         return tab || "manage"
       }
       setSelectedTab(getTab())
     }
-  }, [isLoaded])
-
-  const [selectedTab, setSelectedTab] = useState("")
+  }, [isLoaded, selectedTab])
 
   const router = useRouter()
 
