@@ -59,7 +59,7 @@ export default function IndexPage() {
               </Link>
             )}
             {isSignedIn && (
-              <Link href="/profile">
+              <Link href="/profile?tab=manage">
                 <Button className={buttonVariants({ variant: "default" })}>
                   Go to Profile
                 </Button>
