@@ -18,10 +18,14 @@ export default function IndexPage() {
 
   useEffect(() => {
     async function fetchHomeProfiles() {
-      const { data } = await axiosInstance.get("/public/homepage-profiles")
-      // log
-      console.log("data", data)
-      setHomeProfiles(data)
+      try {
+        const { data } = await axiosInstance.get("/public/homepage-profiles")
+        // log
+        console.log("data", data)
+        setHomeProfiles(data)
+      } catch (err) {
+        console.error("error fetching home profiles", err)
+      }
     }
     fetchHomeProfiles()
   }, [])
