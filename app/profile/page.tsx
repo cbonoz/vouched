@@ -59,7 +59,11 @@ const ProfileSettings = () => {
         From this page you can manage your account settings and add new
         endorsements to your profile page.
       </div>
-      <Tabs value={selectedTab} className="w-[800px]">
+      <Tabs
+        onValueChange={(value) => setSelectedTab(value)}
+        value={selectedTab}
+        className="w-[800px]"
+      >
         <TabsList>
           <TabsTrigger value="network">{getManageHeading()}</TabsTrigger>
           <TabsTrigger value="endorse">Add endorsement</TabsTrigger>
