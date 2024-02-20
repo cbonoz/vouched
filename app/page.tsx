@@ -90,7 +90,9 @@ export default function IndexPage() {
 
       {!isEmpty(homeProfiles) && (
         <div>
-          <div className="text-3xl font-bold content-center">Our members</div>
+          <div className="text-3xl font-bold content-center">
+            Featured members
+          </div>
           <div>
             {homeProfiles.map((profile, index) => (
               <div
