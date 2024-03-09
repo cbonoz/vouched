@@ -61,7 +61,7 @@ export function VouchesProvider({ children }: Props) {
   const getAccessRequests = async () => {
     setLoading(true)
     try {
-      const response = await authAxios.get(`/voucher/requests/list`)
+      const response = await authAxios.get(`/endorser/requests/list`)
       setAccessRequests(response.data)
     } catch (e: any) {
       setError(humanError(e))
@@ -73,7 +73,7 @@ export function VouchesProvider({ children }: Props) {
   const modifyRequest = async (id: string, action: string) => {
     setLoading(true)
     try {
-      await authAxios.patch(`/voucher/requests/${id}`, { action })
+      await authAxios.patch(`/endorser/requests/${id}`, { action })
     } catch (e: any) {
       setError(humanError(e))
     } finally {
