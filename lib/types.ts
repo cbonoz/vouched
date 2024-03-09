@@ -1,4 +1,4 @@
-export interface EndorsementDto {
+export interface VouchDto {
   firstName: string
   lastName: string
   message: string
@@ -6,7 +6,7 @@ export interface EndorsementDto {
   relationship: string
 }
 
-export interface Endorsement {
+export interface Vouch {
   id: string
   firstName: string
   lastName: string

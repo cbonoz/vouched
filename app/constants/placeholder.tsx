@@ -1,10 +1,10 @@
 import { User } from "@clerk/clerk-js/dist/types/core/resources/User"
 
-import { Endorsement } from "@/lib/types"
+import { Vouch } from "@/lib/types"
 
 export const createDemoProfile = (
   handle: string
-): { user: any; endorsements: Endorsement[] } => {
+): { user: any; vouches: Vouch[] } => {
   const d = new Date()
   return {
     user: {
@@ -14,6 +14,6 @@ export const createDemoProfile = (
       firstName: "Demo",
       lastName: "User",
     },
-    endorsements: [],
+    vouches: [],
   }
 }

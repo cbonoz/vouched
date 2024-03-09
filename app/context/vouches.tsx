@@ -2,15 +2,15 @@
 
 import { createContext, useContext, useState } from "react"
 
-import { AccessRequest, Endorsement, EndorsementDto } from "@/lib/types"
+import { AccessRequest, Vouch, VouchDto } from "@/lib/types"
 import { humanError } from "@/lib/utils"
 import useAuthAxios from "@/hooks/useAuthAxios"
 
-export interface EndorsementsContextProps {
-  endorsements: Endorsement[]
-  addEndorsement: (data: any) => Promise<void>
-  deleteEndorsement: (id: string) => Promise<void>
-  getEndorsements: () => Promise<void>
+export interface VouchesContextProps {
+  vouches: Vouch[]
+  addVouch: (data: any) => Promise<void>
+  deleteVouch: (id: string) => Promise<void>
+  getVouches: () => Promise<void>
   loading: boolean
   accessRequests: AccessRequest[]
   acceptRequest: (id: string) => Promise<void>
@@ -18,11 +18,11 @@ export interface EndorsementsContextProps {
   getAccessRequests: () => Promise<void>
 }
 
-const DEFAULT_CONTEXT: EndorsementsContextProps = {
-  endorsements: [],
-  addEndorsement: async () => {},
-  deleteEndorsement: async () => {},
-  getEndorsements: async () => {},
+const DEFAULT_CONTEXT: VouchesContextProps = {
+  vouches: [],
+  addVouch: async () => {},
+  deleteVouch: async () => {},
+  getVouches: async () => {},
   loading: false,
   accessRequests: [],
   acceptRequest: async () => {},
@@ -30,26 +30,26 @@ const DEFAULT_CONTEXT: EndorsementsContextProps = {
   getAccessRequests: async () => {},
 }
 
-const EndorsementsContext = createContext(DEFAULT_CONTEXT)
+const VouchesContext = createContext(DEFAULT_CONTEXT)
 
 interface Props {
   children: React.ReactNode
 }
 
-export function EndorsementsProvider({ children }: Props) {
-  const [endorsements, setEndorsements] = useState<Endorsement[]>([])
+export function VouchesProvider({ children }: Props) {
+  const [vouches, setVouches] = useState<Vouch[]>([])
   const [accessRequests, setAccessRequests] = useState<AccessRequest[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | undefined>()
 
   const { authAxios } = useAuthAxios()
 
-  const addEndorsement = async (data: EndorsementDto) => {
+  const addVouch = async (data: VouchDto) => {
     setLoading(true)
     try {
-      const response = await authAxios.post(`/endorsements`, data)
-      const endorsement = response.data
-      setEndorsements([...endorsements, endorsement])
+      const response = await authAxios.post(`/vouches`, data)
+      const vouch = response.data
+      setVouches([...vouches, vouch])
     } catch (e: any) {
       setError(humanError(e))
     } finally {
@@ -60,7 +60,7 @@ export function EndorsementsProvider({ children }: Props) {
   const getAccessRequests = async () => {
     setLoading(true)
     try {
-      const response = await authAxios.get(`/endorser/requests/list`)
+      const response = await authAxios.get(`/voucher/requests/list`)
       setAccessRequests(response.data)
     } catch (e: any) {
       setError(humanError(e))
@@ -72,7 +72,7 @@ export function EndorsementsProvider({ children }: Props) {
   const modifyRequest = async (id: string, action: string) => {
     setLoading(true)
     try {
-      await authAxios.patch(`/endorser/requests/${id}`, { action })
+      await authAxios.patch(`/voucher/requests/${id}`, { action })
     } catch (e: any) {
       setError(humanError(e))
     } finally {
@@ -88,11 +88,11 @@ export function EndorsementsProvider({ children }: Props) {
     await modifyRequest(id, "reject")
   }
 
-  const getEndorsements = async () => {
+  const getVouches = async () => {
     setLoading(true)
     try {
-      const response = await authAxios.get(`/endorsements/list?limit=1000`)
-      setEndorsements(response.data)
+      const response = await authAxios.get(`/vouches/list?limit=1000`)
+      setVouches(response.data)
     } catch (e: any) {
       setError(humanError(e))
     } finally {
@@ -100,11 +100,11 @@ export function EndorsementsProvider({ children }: Props) {
     }
   }
 
-  const deleteEndorsement = async (id: string) => {
+  const deleteVouch = async (id: string) => {
     setLoading(true)
     try {
-      await authAxios.delete(`/endorsements/${id}`)
-      setEndorsements(endorsements.filter((e: any) => e.id !== id))
+      await authAxios.delete(`/vouches/${id}`)
+      setVouches(vouches.filter((e: any) => e.id !== id))
     } catch (e: any) {
       setError(humanError(e))
     } finally {
@@ -113,24 +113,24 @@ export function EndorsementsProvider({ children }: Props) {
   }
 
   return (
-    <EndorsementsContext.Provider
+    <VouchesContext.Provider
       value={{
-        endorsements,
+        vouches,
         accessRequests,
         getAccessRequests,
         acceptRequest,
         rejectRequest,
         loading,
-        getEndorsements,
-        addEndorsement,
-        deleteEndorsement,
+        getVouches,
+        addVouch,
+        deleteVouch,
       }}
     >
       {children}
-    </EndorsementsContext.Provider>
+    </VouchesContext.Provider>
   )
 }
 
-export function useEndorsements() {
-  return useContext(EndorsementsContext)
+export function useVouches() {
+  return useContext(VouchesContext)
 }

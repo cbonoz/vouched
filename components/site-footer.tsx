@@ -38,7 +38,7 @@ export default function SiteFooter() {
           />
           <Link href={"/"}>Vouched</Link>
           <p className="mt-2 text-xs text-justify text-gray-400">
-            Vouched is a community of endorsers and strong candidates.
+            Vouched is a community of vouchers and strong candidates.
           </p>
           {/* <div className="flex mt-4">
             <Input type="email" placeholder="Email" />

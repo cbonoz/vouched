@@ -3,7 +3,7 @@ export type SiteConfig = typeof siteConfig
 export const siteConfig = {
   name: "Vouched",
   description: "A modern referral network",
-  slogan: "Discover talented candidates endorsed by people you trust",
+  slogan: "Discover talented candidates vouchd by people you trust",
   mainNav: [
     {
       title: "Home",
@@ -21,21 +21,21 @@ export const siteConfig = {
   defaultHome: "/profile?tab=howitworks",
   checklistItems: [
     "Set up a shareable Vouched professional profile page",
-    "Endorse people you know and trust",
+    "Vouch for people you know and trust",
     "Specify custom terms when someone gets hired from your network",
   ],
-  endorsementPlaceholder: {
+  vouchPlaceholder: {
     message:
-      "Enter endorsement message include relevant skills and how you could help someone connect with this person (ex: I worked with John for 5 years at two different startups, and he's a great manager and leader of SaaS companies. I can help you get in contact with John via email or LinkedIn on request.",
+      "Enter vouch message include relevant skills and how you could help someone connect with this person (ex: I worked with John for 5 years at two different startups, and he's a great manager and leader of SaaS companies. I can help you get in contact with John via email or LinkedIn on request.",
     relationship:
       "Enter relationship (ex: coworker for five years, manager, etc)",
-      skills: "Enter skills separated by a comma (ex: leadership, management, etc)",
-
+    skills:
+      "Enter skills separated by a comma (ex: leadership, management, etc)",
   },
   tooltips: {
-    endorsement: {
+    vouch: {
       message:
-        "This is the message that will be displayed on the endorsement card. It should be a short message that describes your relationship with the person you are endorsing and why you are endorsing them.",
+        "This is the message that will be displayed on the vouch card. It should be a short message that describes your relationship with the person you are endorsing and why you are endorsing them.",
       relationship:
         "This is the relationship you have with the person you are endorsing. It should be a short description of how you know the person you are endorsing.",
     },

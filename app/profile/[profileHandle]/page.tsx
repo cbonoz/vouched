@@ -22,7 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import BasicCard from "@/components/core/BasicCard"
-import EndorsementRow from "@/components/core/EndorsementRow"
+import VouchRow from "@/components/core/VouchRow"
 
 import useAuthAxios from "../../../hooks/useAuthAxios"
 
@@ -112,23 +112,23 @@ export default function ProfilePage({ params }: Props) {
     )
   }
 
-  const { yourPage, user, endorsements, endorsementCount, locked } = profile
+  const { yourPage, user, vouches, vouchCount, locked } = profile
 
   if (!user) {
     return <div>Profile not found</div>
   }
 
   const fullName = getNameFromUser(user)
-  const hasEndorsements = !isEmpty(endorsements)
+  const hasVouches = !isEmpty(vouches)
 
-  let filteredEndorsements = endorsements
+  let filteredVouches = vouches
   if (skillFilter) {
-    filteredEndorsements = profile.endorsements.filter(
+    filteredVouches = profile.vouches.filter(
       (e: any) => e.skills && e.skills.includes(skillFilter)
     )
   }
 
-  const skillOptions = (endorsements || []).reduce((acc: any, e: any) => {
+  const skillOptions = (vouches || []).reduce((acc: any, e: any) => {
     if (e.skills) {
       e.skills.split(",").forEach((s: string) => {
         if (!acc.includes(s)) {
@@ -144,7 +144,7 @@ export default function ProfilePage({ params }: Props) {
       {yourPage && (
         <div className="flex flex-row gap-8 mb-4 font-bold justify-center">
           <i>
-            This is your profile page. Endorsements below will only be visible
+            This is your profile page. Vouches below will only be visible
             to&nbsp;
             <a
               href="/profile?tab=access"
@@ -175,11 +175,11 @@ export default function ProfilePage({ params }: Props) {
           )}
         </div>
         <div className="basis-3/4">
-          <BasicCard title={`${fullName}'s Vouches (${endorsementCount})`}>
-            {!loading && !endorsementCount && (
+          <BasicCard title={`${fullName}'s Vouches (${vouchCount})`}>
+            {!loading && !vouchCount && (
               <div className="my-4">
                 <div className="text-2xl font-bold">
-                  {user.firstName} has not added any endorsements yet
+                  {user.firstName} has not added any vouches yet
                 </div>
               </div>
             )}
@@ -200,10 +200,10 @@ export default function ProfilePage({ params }: Props) {
             {locked && email && (
               <div className="my-4">
                 <div className="text-2xl font-bold">
-                  {user.firstName}&#39;s endorsements are locked
+                  {user.firstName}&#39;s vouches are locked
                 </div>
                 <div>
-                  {`You can unlock ${user.firstName}'s endorsements by requesting access`}
+                  {`You can unlock ${user.firstName}'s vouches by requesting access`}
                 </div>
 
                 <Button
@@ -214,7 +214,7 @@ export default function ProfilePage({ params }: Props) {
                 </Button>
               </div>
             )}
-            {hasEndorsements && !loading && (
+            {hasVouches && !loading && (
               <div>
                 <div className="flex">
                   <Select
@@ -241,14 +241,14 @@ export default function ProfilePage({ params }: Props) {
                   )}
                 </div>
                 <div className="mt-2">
-                  {filteredEndorsements.map((endorsement: any) => {
+                  {filteredVouches.map((vouch: any) => {
                     return (
-                      <span key={endorsement.id}>
-                        <EndorsementRow endorsement={endorsement} />
+                      <span key={vouch.id}>
+                        <VouchRow vouch={vouch} />
                       </span>
 
                       // <RenderObject
-                      //   obj={endorsement}
+                      //   obj={vouch}
                       //   keys={[
                       //     "firstName",
                       //     "lastName",
@@ -285,7 +285,7 @@ export default function ProfilePage({ params }: Props) {
               </div>
               <br />
               <div className="text-2xl font-bold">
-                Request access to endorsements
+                Request access to vouches
               </div>
 
               <div className="my-4">

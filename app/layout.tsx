@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
-import { EndorsementsProvider } from "./context/endorsements"
+import { VouchesProvider } from "./context/vouches"
 
 export const runtime = "edge"
 
@@ -48,7 +48,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <ClerkProvider>
-            <EndorsementsProvider>
+            <VouchesProvider>
               <ThemeProvider
                 attribute="class"
                 defaultTheme="system"
@@ -63,7 +63,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 </div>
                 {/* <TailwindIndicator /> */}
               </ThemeProvider>
-            </EndorsementsProvider>
+            </VouchesProvider>
           </ClerkProvider>
         </body>
       </html>

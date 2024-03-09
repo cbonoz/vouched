@@ -15,13 +15,13 @@ import ManageNetwork from "@/components/core/ManageNetwork"
 import ManageProfile from "@/components/core/ManageProfile"
 import Vouch from "@/components/core/Vouch"
 
-import { useEndorsements } from "../context/endorsements"
+import { useVouches } from "../context/vouches"
 
 const ProfileSettings = () => {
   const { user, isLoaded, isSignedIn } = useUser()
   const [selectedTab, setSelectedTab] = useState("")
 
-  const { endorsements } = useEndorsements()
+  const { vouches } = useVouches()
 
   useEffect(() => {
     if (!isLoaded || !selectedTab) {
@@ -46,18 +46,26 @@ const ProfileSettings = () => {
   }
 
   const getManageHeading = () => {
-    if (endorsements.length > 0) {
-      return `Manage your endorsements (${endorsements.length})`
+    const tab = `Manage your Vouch list`
+    if (vouches.length > 0) {
+      return `${tab} (${vouches.length})`
     }
-    return "Manage your endorsements"
+    return tab
   }
 
   return (
     <div>
-      <div className="my-4 text-2xl">Main dashboard</div>
       <div className="my-4">
-        From this page you can manage your account settings and add new
-        endorsements to your profile page.
+        <span className="text-2xl">Main dashboard</span>
+        {/* <span className="text-xl">
+          <a href={profileLink} target="_blank" rel="noreferrer">
+            View your public profile
+          </a>
+        </span> */}
+      </div>
+      <div className="my-4">
+        From this page you can manage your account settings and add new vouches
+        to your profile page.
       </div>
       <Tabs
         onValueChange={(value) => setSelectedTab(value)}
@@ -66,9 +74,9 @@ const ProfileSettings = () => {
       >
         <TabsList>
           <TabsTrigger value="network">{getManageHeading()}</TabsTrigger>
-          <TabsTrigger value="endorse">Add endorsement</TabsTrigger>
+          <TabsTrigger value="vouch">Add Vouch</TabsTrigger>
+          <TabsTrigger value="manage">Your Vouch page</TabsTrigger>
           <TabsTrigger value="access">Access requests</TabsTrigger>
-          <TabsTrigger value="manage">User settings</TabsTrigger>
           {/* <TabsTrigger value="invite">Invite user to Vouched</TabsTrigger> */}
           <TabsTrigger value="howitworks">How Vouched works</TabsTrigger>
         </TabsList>
@@ -76,7 +84,7 @@ const ProfileSettings = () => {
           <ManageProfile />
         </TabsContent>
 
-        <TabsContent value="endorse">
+        <TabsContent value="vouch">
           <Vouch onSubmit={(data: any) => console.log("submit", data)} />
         </TabsContent>
         <TabsContent value="network">

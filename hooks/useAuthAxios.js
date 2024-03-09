@@ -43,8 +43,8 @@ const useAuthAxios = () => {
     return res.data
   }
 
-  const postEndorse = async (body) => {
-    const res = await axiosInstance.post(`/users/endorse`, body)
+  const postVouch = async (body) => {
+    const res = await axiosInstance.post(`/users/vouch`, body)
     return res.data
   }
 
@@ -52,7 +52,7 @@ const useAuthAxios = () => {
     getProfile,
     getUser,
     requestAccess,
-    postEndorse,
+    postVouch,
     authAxios: axiosInstance,
   }
 }

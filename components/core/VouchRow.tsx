@@ -1,20 +1,20 @@
 import { Separator } from "@radix-ui/react-separator"
 
-import { Endorsement } from "@/lib/types"
+import { Vouch } from "@/lib/types"
 import { formatDate } from "@/lib/utils"
 
 import BasicCard from "./BasicCard"
 
-const EndorsementRow = ({ endorsement }: { endorsement: Endorsement }) => {
-  const fullName = `${endorsement.firstName} ${endorsement.lastName}`
+const VouchRow = ({ vouch }: { vouch: Vouch }) => {
+  const fullName = `${vouch.firstName} ${vouch.lastName}`
 
   // Split skills by comma and strip whitespace
-  const skills = endorsement.skills.split(",").map((skill) => skill.trim())
+  const skills = vouch.skills.split(",").map((skill) => skill.trim())
 
   const titleRow = (
     <div className="flex justify-between">
       <div className="font-bold">{fullName}</div>
-      <div>Endorsed: {formatDate(endorsement.createdAt, true)}</div>
+      <div>Vouchd: {formatDate(vouch.createdAt, true)}</div>
     </div>
   )
 
@@ -22,7 +22,7 @@ const EndorsementRow = ({ endorsement }: { endorsement: Endorsement }) => {
     <BasicCard title={titleRow} className="p-4">
       <div>
         <div className="text-sm">
-          <div className="my-1 font-bold">{endorsement.message}</div>
+          <div className="my-1 font-bold">{vouch.message}</div>
           <hr />
           <div className="my-2">
             {/* skill chips */}
@@ -36,11 +36,11 @@ const EndorsementRow = ({ endorsement }: { endorsement: Endorsement }) => {
               </span>
             ))}
           </div>
-          <div>Relationship: {endorsement.relationship}</div>
-          {/* <div>Endorsed on: {formatDate(endorsement.createdAt, true)}</div> */}
+          <div>Relationship: {vouch.relationship}</div>
+          {/* <div>Vouchd on: {formatDate(vouch.createdAt, true)}</div> */}
         </div>
       </div>
     </BasicCard>
   )
 }
-export default EndorsementRow
+export default VouchRow

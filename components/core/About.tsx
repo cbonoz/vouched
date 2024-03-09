@@ -5,18 +5,18 @@ const About = () => {
     <div>
       <BasicCard title="Welcome to Vouched!" className="w-full p-6">
         <div className="my-4">
-          Vouched is a platform that allows you to endorse people you know and
+          Vouched is a platform that allows you to vouch people you know and
           trust.{" "}
         </div>
 
         <div className="my-4">
           <div className="text-xl font-bold">How it works</div>
           <div className="my-4">
-            <div className="text-lg font-bold">Endorsements</div>
+            <div className="text-lg font-bold">Vouches</div>
             <div>
-              Endorsements are a way to vouch for someone you know. When you
-              endorse someone, you are saying that you trust them. You can
-              endorse someone for a specific skill, or for their character.
+              Vouches are a way to vouch for someone you know. When you vouch
+              someone, you are saying that you trust them. You can vouch someone
+              for a specific skill, or for their character.
             </div>
           </div>
 
@@ -25,9 +25,9 @@ const About = () => {
             <div>
               A profile page is defined by a unique handle you can define from
               the Manage tab. You can share your profile page with others, and
-              they can request access to your endorsement or vouch network using
-              terms of access that you specify (ex: 10% fee if you hire someone
-              from my network, I get a return favor X, etc.).
+              they can request access to your vouch or vouch network using terms
+              of access that you specify (ex: 10% fee if you hire someone from
+              my network, I get a return favor X, etc.).
             </div>
           </div>
 

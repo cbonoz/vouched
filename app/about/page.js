@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { Button, buttonVariants } from "@/components/ui/button"
 
 const SECTIONS = [
-  "Vouched is a place to get and send personal endorsements from your network.",
+  "Vouched is a place to vouch for great people from your network.",
   "Vouched is a place to find jobs and opportunities through verified connections.",
   "Vouched is a place to connect with people you know.",
   "Vouched is a place to find people you want to know.",

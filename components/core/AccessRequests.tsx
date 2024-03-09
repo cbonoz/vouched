@@ -8,11 +8,12 @@ import { CheckCheckIcon, CheckIcon, Trash, TrashIcon } from "lucide-react"
 import { capitalize, humanError, isEmpty, profileUrl } from "@/lib/utils"
 import useAuthAxios from "@/hooks/useAuthAxios"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useEndorsements } from "@/app/context/endorsements"
+import { useVouches } from "@/app/context/vouches"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import BasicCard from "./BasicCard"
+import Loading from "./Loading"
 import RenderObject from "./RenderObject"
 
 const AccessRequests = () => {
@@ -28,7 +29,7 @@ const AccessRequests = () => {
     getAccessRequests,
     rejectRequest,
     acceptRequest,
-  } = useEndorsements()
+  } = useVouches()
 
   useEffect(() => {
     if (!isLoaded || !user) {
@@ -40,7 +41,7 @@ const AccessRequests = () => {
   const hasRequests = !isEmpty(accessRequests)
 
   if (loading && !hasRequests) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return (
@@ -52,7 +53,7 @@ const AccessRequests = () => {
               <h1 className="text-2xl font-bold">No access requests yet</h1>
               <p className="text-gray-500">
                 {`You will see access requests here when someone requests access to
-                your endorsements.`}
+        your vouches.`}
               </p>
             </div>
           )}

@@ -23,6 +23,7 @@ import { Textarea } from "../ui/textarea"
 import { useToast } from "../ui/use-toast"
 import BasicCard from "./BasicCard"
 import BasicTooltip from "./BasicTooltip"
+import Loading from './Loading'
 
 const ManageProfile = () => {
   const { isSignedIn, user, isLoaded } = useUser()
@@ -128,7 +129,7 @@ const ManageProfile = () => {
   const isProfileActivated = !!data.activatedAt && !!data.handle
 
   return (
-    <BasicCard title="User settings" className="min-w-max p-4">
+    <BasicCard title="Your Vouch page" className="min-w-max p-4">
       {isProfileActivated && (
         <div>
           View your profile page:{" "}
@@ -295,7 +296,7 @@ const ManageProfile = () => {
           )}
         </div>
       )}
-      {loading && <div>Loading...</div>}
+      {loading &&  <Loading/>}
       <div className="my-4 max-w-[400px]">
         {error && <div className="text-red-500">{error}</div>}
       </div>

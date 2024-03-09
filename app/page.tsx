@@ -118,8 +118,7 @@ export default function IndexPage() {
                     <div className="text-2xl font-bold">
                       {profile.firstName} {profile.lastName}
                     </div>
-                    <div>{profile.title}</div>
-                    <div>{profile.bio}</div>
+                    <div className="text-md">{profile.bio}</div>
                   </div>
                 </div>
               </div>

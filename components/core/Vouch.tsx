@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 
 import { siteConfig } from "@/config/site"
-import { useEndorsements } from "@/app/context/endorsements"
+import { useVouches } from "@/app/context/vouches"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
@@ -11,6 +11,7 @@ import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
 import { useToast } from "../ui/use-toast"
 import BasicCard from "./BasicCard"
+import Loading from './Loading'
 
 interface Props {
   // targetUser: any
@@ -27,7 +28,7 @@ const Vouch = ({ onSubmit }: Props) => {
   const [lastName, setLastName] = useState("")
 
   const { toast } = useToast()
-  const { addEndorsement } = useEndorsements()
+  const { addVouch } = useVouches()
 
   const clearForm = () => {
     setMessage("")
@@ -37,7 +38,7 @@ const Vouch = ({ onSubmit }: Props) => {
     setSkills("")
   }
 
-  async function submitEndorsement() {
+  async function submitVouch() {
     if (!message || !relationship || !firstName || !lastName) {
       setError("Please fill out all fields")
       return
@@ -45,17 +46,17 @@ const Vouch = ({ onSubmit }: Props) => {
 
     try {
       setLoading(true)
-      await addEndorsement({
+      await addVouch({
         message,
         relationship,
         firstName,
         lastName,
-        skills
+        skills,
       })
 
       toast({
         title: "Success",
-        description: "Endorsement added",
+        description: "Vouch added",
         duration: 1500,
       })
       clearForm()
@@ -69,7 +70,7 @@ const Vouch = ({ onSubmit }: Props) => {
 
   return (
     <div>
-      <BasicCard title={`Add a new endorsement`} className="min-w-max p-4">
+      <BasicCard title={`Add a new vouch`} className="min-w-max p-4">
         <Label className="mb-4">First name</Label>
         <Input
           className="my-4 w-full"
@@ -86,12 +87,12 @@ const Vouch = ({ onSubmit }: Props) => {
           placeholder="Enter last name of individual (ex: Doe)"
         />
 
-        <Label className="mb-4">Message</Label>
+        <Label className="mb-4">Headline / Summary</Label>
         <Textarea
           className="my-4 w-full"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder={siteConfig.endorsementPlaceholder.message}
+          placeholder={siteConfig.vouchPlaceholder.message}
         />
 
         {/* skills  */}
@@ -100,7 +101,7 @@ const Vouch = ({ onSubmit }: Props) => {
           className="my-4 w-full"
           value={skills}
           onChange={(e) => setSkills(e.target.value)}
-          placeholder={siteConfig.endorsementPlaceholder.skills}
+          placeholder={siteConfig.vouchPlaceholder.skills}
         />
 
         <Label className="mb-4">Relationship</Label>
@@ -108,16 +109,16 @@ const Vouch = ({ onSubmit }: Props) => {
           className="my-4 w-full"
           value={relationship}
           onChange={(e) => setRelationship(e.target.value)}
-          placeholder={siteConfig.endorsementPlaceholder.relationship}
+          placeholder={siteConfig.vouchPlaceholder.relationship}
         />
 
-        <Button disabled={loading} onClick={submitEndorsement}>
-          Add Endorsement
+        <Button disabled={loading} onClick={submitVouch}>
+          Add Vouch
         </Button>
 
         <div>
           {error && <p className="text-red-500">{error}</p>}
-          {loading && <p>Loading...</p>}
+          {loading && <Loading />}
         </div>
       </BasicCard>
     </div>
