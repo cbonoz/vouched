@@ -112,7 +112,13 @@ export default function ProfilePage({ params }: Props) {
     )
   }
 
-  const { yourPage, user, endorsements: vouches, endorsementCount: vouchCount, locked } = profile
+  const {
+    yourPage,
+    user,
+    endorsements: vouches,
+    endorsementCount: vouchCount,
+    locked,
+  } = profile
 
   if (!user) {
     return <div>Profile not found</div>
@@ -124,23 +130,12 @@ export default function ProfilePage({ params }: Props) {
   let filteredVouches = vouches
   if (skillFilter) {
     const filterString = skillFilter.toLowerCase()
-    filteredVouches = profile.vouches.filter(
+    filteredVouches = vouches.filter(
       (e: any) =>
         (e.skills && e.skills.includes(filterString)) ||
         (e.message && e.message.toLowerCase().includes(filterString))
     )
   }
-
-  const skillOptions = (vouches || []).reduce((acc: any, e: any) => {
-    if (e.skills) {
-      e.skills.split(",").forEach((s: string) => {
-        if (!acc.includes(s)) {
-          acc.push(s)
-        }
-      })
-    }
-    return acc
-  }, [])
 
   return (
     <div>
@@ -220,25 +215,16 @@ export default function ProfilePage({ params }: Props) {
             {hasVouches && !loading && (
               <div>
                 <div className="flex">
-                  <Select
+                  <Input
                     value={skillFilter}
-                    onValueChange={(s) => setSkillFilter(s)}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select skill to filter" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {skillOptions.map((skill: string) => (
-                        <SelectItem key={skill} value={skill}>
-                          {skill}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    onChange={(e) => setSkillFilter(e.target.value)}
+                    placeholder="Filter by vouch content"
+                    className="my-4"
+                  ></Input>
                   {skillFilter && (
                     // align center
                     <TrashIcon
-                      className="pt-1 cursor-pointer ml-2 text-red-500 size-8"
+                      className="cursor-pointer text-red-500 size-6 mt-6 ml-2"
                       onClick={() => setSkillFilter("")}
                     />
                   )}
