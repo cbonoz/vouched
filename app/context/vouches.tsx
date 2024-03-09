@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from "react"
 
-import { AccessRequest, Vouch, Vouchedto } from "@/lib/types"
+import { AccessRequest, Vouch, VouchedDto } from "@/lib/types"
 import { humanError } from "@/lib/utils"
 import useAuthAxios from "@/hooks/useAuthAxios"
 
@@ -44,7 +44,7 @@ export function VouchesProvider({ children }: Props) {
 
   const { authAxios } = useAuthAxios()
 
-  const addVouch = async (data: Vouchedto) => {
+  const addVouch = async (data: VouchedDto) => {
     setLoading(true)
     try {
       const response = await authAxios.post(`/endorsements`, data)
