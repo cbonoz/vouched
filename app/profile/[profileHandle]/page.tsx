@@ -157,8 +157,8 @@ export default function ProfilePage({ params }: Props) {
         </div>
       )}
       <div className="flex flex-row gap-8">
-        <Avatar className="w-[256px] h-[256]">
-          <AvatarImage className="h-max w-max" src={user.imageUrl || ""} />
+        <Avatar className="w-[256px] h-[256px]">
+          <AvatarImage src={user.imageUrl || ""} />
           <AvatarFallback>{fullName}</AvatarFallback>
         </Avatar>
       </div>
