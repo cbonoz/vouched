@@ -124,7 +124,9 @@ export default function ProfilePage({ params }: Props) {
   let filteredVouches = vouches
   if (skillFilter) {
     filteredVouches = profile.vouches.filter(
-      (e: any) => e.skills && e.skills.includes(skillFilter)
+      (e: any) =>
+        (e.skills && e.skills.includes(skillFilter)) ||
+        (e.message && e.message.includes(skillFilter))
     )
   }
 
