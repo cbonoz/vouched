@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import { TrashIcon } from "lucide-react"
+import { useTheme } from "next-themes"
 
 import { getNameFromUser, humanError, isEmpty, isValidEmail } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -20,6 +21,7 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import BasicCard from "@/components/core/BasicCard"
 import EndorsementRow from "@/components/core/EndorsementRow"
 
 import useAuthAxios from "../../../hooks/useAuthAxios"
@@ -44,6 +46,8 @@ export default function ProfilePage({ params }: Props) {
   const [type, setType] = useState("received")
   const [error, setError] = useState()
   const { getProfile, requestAccess } = useAuthAxios()
+
+  const { theme } = useTheme()
 
   async function sendAccessRequest() {
     if (!isValidEmail(emailValue)) {
@@ -153,7 +157,7 @@ export default function ProfilePage({ params }: Props) {
         </div>
       )}
       <div className="flex flex-row gap-8">
-        <Avatar className="w-[256px] h-[156]">
+        <Avatar className="w-[256px] h-[256]">
           <AvatarImage className="h-max w-max" src={user.imageUrl || ""} />
           <AvatarFallback>{fullName}</AvatarFallback>
         </Avatar>
@@ -171,100 +175,107 @@ export default function ProfilePage({ params }: Props) {
           )}
         </div>
         <div className="basis-3/4">
-          <div className="my-4 text-2xl font-bold">
-            {fullName}&#39;s Vouches ({endorsementCount})
-          </div>
-          {!loading && !endorsementCount && (
-            <div className="my-4">
-              <div className="text-2xl font-bold">
-                {user.firstName} has not added any endorsements yet
+          <BasicCard title={`${fullName}'s Vouches (${endorsementCount})`}>
+            {!loading && !endorsementCount && (
+              <div className="my-4">
+                <div className="text-2xl font-bold">
+                  {user.firstName} has not added any endorsements yet
+                </div>
               </div>
-            </div>
-          )}
-          {locked && !email && (
-            <div>
-              <Input
-                value={emailValue}
-                onChange={(e) => setEmailValue(e.target.value)}
-                placeholder="Enter your email to unlock or request access"
-                className="my-4"
-              />
-
-              <Button onClick={() => setEmail(emailValue)} className="mt-4">
-                Check access
-              </Button>
-            </div>
-          )}
-          {locked && email && (
-            <div className="my-4">
-              <div className="text-2xl font-bold">
-                {user.firstName}&#39;s endorsements are locked
-              </div>
+            )}
+            {locked && !email && (
               <div>
-                {`You can unlock ${user.firstName}'s endorsements by requesting access`}
-              </div>
+                <Input
+                  value={emailValue}
+                  onChange={(e) => setEmailValue(e.target.value)}
+                  placeholder="Enter your email to unlock or request access"
+                  className="my-4"
+                />
 
-              <Button onClick={() => setShowAccessModal(true)} className="mt-4">
-                Request Access
-              </Button>
-            </div>
-          )}
-          {hasEndorsements && !loading && (
-            <div>
-              <div className="flex">
-                <Select
-                  value={skillFilter}
-                  onValueChange={(s) => setSkillFilter(s)}
+                <Button onClick={() => setEmail(emailValue)} className="mt-4">
+                  Check access
+                </Button>
+              </div>
+            )}
+            {locked && email && (
+              <div className="my-4">
+                <div className="text-2xl font-bold">
+                  {user.firstName}&#39;s endorsements are locked
+                </div>
+                <div>
+                  {`You can unlock ${user.firstName}'s endorsements by requesting access`}
+                </div>
+
+                <Button
+                  onClick={() => setShowAccessModal(true)}
+                  className="mt-4"
                 >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select skill to filter" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {skillOptions.map((skill: string) => (
-                      <SelectItem key={skill} value={skill}>
-                        {skill}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {skillFilter && (
-                  // align center
-                  <TrashIcon
-                    className="pt-1 cursor-pointer ml-2 text-red-500 size-8"
-                    onClick={() => setSkillFilter("")}
-                  />
-                )}
+                  Request Access
+                </Button>
               </div>
-              <div className="mt-2">
-                {filteredEndorsements.map((endorsement: any) => {
-                  return (
-                    <span key={endorsement.id}>
-                      <EndorsementRow endorsement={endorsement} />
-                    </span>
+            )}
+            {hasEndorsements && !loading && (
+              <div>
+                <div className="flex">
+                  <Select
+                    value={skillFilter}
+                    onValueChange={(s) => setSkillFilter(s)}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select skill to filter" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {skillOptions.map((skill: string) => (
+                        <SelectItem key={skill} value={skill}>
+                          {skill}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {skillFilter && (
+                    // align center
+                    <TrashIcon
+                      className="pt-1 cursor-pointer ml-2 text-red-500 size-8"
+                      onClick={() => setSkillFilter("")}
+                    />
+                  )}
+                </div>
+                <div className="mt-2">
+                  {filteredEndorsements.map((endorsement: any) => {
+                    return (
+                      <span key={endorsement.id}>
+                        <EndorsementRow endorsement={endorsement} />
+                      </span>
 
-                    // <RenderObject
-                    //   obj={endorsement}
-                    //   keys={[
-                    //     "firstName",
-                    //     "lastName",
-                    //     "message",
-                    //     "relationship",
-                    //     "createdAt",
-                    //   ]}
-                    // />
-                  )
-                })}
+                      // <RenderObject
+                      //   obj={endorsement}
+                      //   keys={[
+                      //     "firstName",
+                      //     "lastName",
+                      //     "message",
+                      //     "relationship",
+                      //     "createdAt",
+                      //   ]}
+                      // />
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </BasicCard>
         </div>
       </div>
 
       {showAccessModal && (
         <div>
-          <div className="fixed inset-0 bg-black bg-opacity-50" />
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          {/* <div className="fixed inset-0 bg-black bg-opacity-50" /> */}
           <div className="fixed inset-0 flex items-center justify-center">
-            <div className="bg-white p-12 rounded-lg">
+            <div
+              className={`p-12 rounded-lg bg-${
+                theme === "dark" ? "black" : "white"
+              } shadow-lg`}
+            >
               {/* close icon */}
               <div
                 className="cursor-pointer align-right"
