@@ -269,7 +269,6 @@ export default function ProfilePage({ params }: Props) {
       {showAccessModal && (
         <div>
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          {/* <div className="fixed inset-0 bg-black bg-opacity-50" /> */}
           <div className="fixed inset-0 flex items-center justify-center">
             <div
               className={`p-12 rounded-lg bg-${
