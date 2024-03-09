@@ -5,6 +5,7 @@ import RenderResult from "next/dist/server/render-result"
 import { SignIn, useUser } from "@clerk/nextjs"
 import { Trash, TrashIcon } from "lucide-react"
 
+import { Vouch } from "@/lib/types"
 import { capitalize, humanError, isEmpty, profileUrl } from "@/lib/utils"
 import useAuthAxios from "@/hooks/useAuthAxios"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -12,8 +13,8 @@ import { useVouches } from "@/app/context/vouches"
 
 import { Input } from "../ui/input"
 import BasicCard from "./BasicCard"
+import Loading from "./Loading"
 import RenderObject from "./RenderObject"
-import Loading from './Loading'
 
 const ManageNetwork = () => {
   const { isSignedIn, user, isLoaded } = useUser()
@@ -34,7 +35,7 @@ const ManageNetwork = () => {
   const hasVouches = !isEmpty(vouches)
 
   if (loading && !hasVouches) {
-    return  <Loading/>
+    return <Loading />
   }
 
   return (
@@ -55,7 +56,7 @@ const ManageNetwork = () => {
             user has unlocked access. Make your profile public from the User
             settings tab.
           </div>
-          {vouches.map((vouch: any) => {
+          {vouches.map((vouch: Vouch, i: number) => {
             const actionRow = (
               // align to fill row
               <div className="flex justify-between">
@@ -72,7 +73,7 @@ const ManageNetwork = () => {
             )
 
             return (
-              <BasicCard title={actionRow} className="p-4">
+              <BasicCard key={i} title={actionRow} className="p-4">
                 <RenderObject
                   obj={vouch}
                   keys={[
