@@ -112,7 +112,7 @@ export default function ProfilePage({ params }: Props) {
     )
   }
 
-  const { yourPage, user, vouches, vouchCount, locked } = profile
+  const { yourPage, user, endorsements: vouches, endorsementCount: vouchCount, locked } = profile
 
   if (!user) {
     return <div>Profile not found</div>
@@ -123,10 +123,11 @@ export default function ProfilePage({ params }: Props) {
 
   let filteredVouches = vouches
   if (skillFilter) {
+    const filterString = skillFilter.toLowerCase()
     filteredVouches = profile.vouches.filter(
       (e: any) =>
-        (e.skills && e.skills.includes(skillFilter)) ||
-        (e.message && e.message.includes(skillFilter))
+        (e.skills && e.skills.includes(filterString)) ||
+        (e.message && e.message.toLowerCase().includes(filterString))
     )
   }
 

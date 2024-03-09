@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 
 import { siteConfig } from "@/config/site"
+import { humanError } from "@/lib/utils"
 import { useVouches } from "@/app/context/vouches"
 
 import { Button } from "../ui/button"
@@ -11,7 +12,7 @@ import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
 import { useToast } from "../ui/use-toast"
 import BasicCard from "./BasicCard"
-import Loading from './Loading'
+import Loading from "./Loading"
 
 interface Props {
   // targetUser: any
@@ -39,7 +40,7 @@ const Vouch = ({ onSubmit }: Props) => {
   }
 
   async function submitVouch() {
-    if (!message || !relationship || !firstName || !lastName) {
+    if (!message || !firstName || !lastName) {
       setError("Please fill out all fields")
       return
     }
@@ -62,7 +63,7 @@ const Vouch = ({ onSubmit }: Props) => {
       clearForm()
       onSubmit()
     } catch (error: any) {
-      setError(error)
+      setError(humanError(error))
     } finally {
       setLoading(false)
     }
@@ -96,7 +97,7 @@ const Vouch = ({ onSubmit }: Props) => {
         />
 
         {/* skills  */}
-        <Label className="mb-4">Skills</Label>
+        {/* <Label className="mb-4">Skills</Label>
         <Input
           className="my-4 w-full"
           value={skills}
@@ -110,7 +111,7 @@ const Vouch = ({ onSubmit }: Props) => {
           value={relationship}
           onChange={(e) => setRelationship(e.target.value)}
           placeholder={siteConfig.vouchPlaceholder.relationship}
-        />
+        /> */}
 
         <Button disabled={loading} onClick={submitVouch}>
           Add Vouch

@@ -47,11 +47,12 @@ export function VouchesProvider({ children }: Props) {
   const addVouch = async (data: Vouchedto) => {
     setLoading(true)
     try {
-      const response = await authAxios.post(`/vouches`, data)
+      const response = await authAxios.post(`/endorsements`, data)
       const vouch = response.data
       setVouches([...vouches, vouch])
     } catch (e: any) {
       setError(humanError(e))
+      throw e
     } finally {
       setLoading(false)
     }
@@ -91,7 +92,7 @@ export function VouchesProvider({ children }: Props) {
   const getVouches = async () => {
     setLoading(true)
     try {
-      const response = await authAxios.get(`/vouches/list?limit=1000`)
+      const response = await authAxios.get(`/endorsements/list?limit=1000`)
       setVouches(response.data)
     } catch (e: any) {
       setError(humanError(e))
@@ -103,7 +104,7 @@ export function VouchesProvider({ children }: Props) {
   const deleteVouch = async (id: string) => {
     setLoading(true)
     try {
-      await authAxios.delete(`/vouches/${id}`)
+      await authAxios.delete(`/endorsements/${id}`)
       setVouches(vouches.filter((e: any) => e.id !== id))
     } catch (e: any) {
       setError(humanError(e))

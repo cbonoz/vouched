@@ -25,8 +25,8 @@ const useAuthAxios = () => {
     const url = requesterEmail
       ? `${baseUrl}?handle=${handle}&requesterEmail=${requesterEmail}`
       : `${baseUrl}?handle=${handle}`
-    const res = await axiosInstance.get(url)
-    return res.data
+    let { data } = await axiosInstance.get(url)
+    return data
   }
 
   const requestAccess = async (handle, message, email) => {

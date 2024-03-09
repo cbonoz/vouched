@@ -9,7 +9,10 @@ const VouchRow = ({ vouch }: { vouch: Vouch }) => {
   const fullName = `${vouch.firstName} ${vouch.lastName}`
 
   // Split skills by comma and strip whitespace
-  const skills = vouch.skills.split(",").map((skill) => skill.trim())
+  const skills = vouch.skills
+    .split(",")
+    .map((skill) => skill.trim())
+    .filter((x) => !isEmpty(x))
 
   const titleRow = (
     <div className="flex justify-between">

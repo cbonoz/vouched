@@ -4,7 +4,7 @@ import { Vouch } from "@/lib/types"
 
 export const createDemoProfile = (
   handle: string
-): { user: any; vouches: Vouch[] } => {
+): { user: any; endorsements: Vouch[] } => {
   const d = new Date()
   return {
     user: {
@@ -14,6 +14,6 @@ export const createDemoProfile = (
       firstName: "Demo",
       lastName: "User",
     },
-    vouches: [],
+    endorsements: [],
   }
 }
