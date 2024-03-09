@@ -53,14 +53,16 @@ const ManageNetwork = () => {
           )}
           <div className="my-4">
             These profiles will be visible on your Vouched profile page if a
-            user has unlocked access. Make your profile public from the User
-            settings tab.
+            user has unlocked access. Make your profile public from the 'Your
+            Vouch page' tab.
           </div>
           {vouches.map((vouch: Vouch, i: number) => {
             const actionRow = (
               // align to fill row
               <div className="flex justify-between">
-                <span>Vouch</span>
+                <span>
+                  Active Vouch - {vouch.firstName} {vouch.lastName}
+                </span>
                 <span>
                   <button
                     onClick={() => deleteVouch(vouch.id)}
@@ -80,8 +82,8 @@ const ManageNetwork = () => {
                     "firstName",
                     "lastName",
                     "message",
-                    "skills",
-                    "relationship",
+                    // "skills",
+                    // "relationship",
                     "createdAt",
                   ]}
                 />

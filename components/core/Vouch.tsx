@@ -71,7 +71,7 @@ const Vouch = ({ onSubmit }: Props) => {
 
   return (
     <div>
-      <BasicCard title={`Add a new vouch`} className="min-w-max p-4">
+      <BasicCard title={`Add a new Vouch`} className="min-w-max p-4">
         <Label className="mb-4">First name</Label>
         <Input
           className="my-4 w-full"

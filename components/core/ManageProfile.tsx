@@ -23,7 +23,7 @@ import { Textarea } from "../ui/textarea"
 import { useToast } from "../ui/use-toast"
 import BasicCard from "./BasicCard"
 import BasicTooltip from "./BasicTooltip"
-import Loading from './Loading'
+import Loading from "./Loading"
 
 const ManageProfile = () => {
   const { isSignedIn, user, isLoaded } = useUser()
@@ -129,7 +129,7 @@ const ManageProfile = () => {
   const isProfileActivated = !!data.activatedAt && !!data.handle
 
   return (
-    <BasicCard title="Your Vouch page" className="min-w-max p-4">
+    <BasicCard title="Vouch page setup" className="min-w-max p-4">
       {isProfileActivated && (
         <div>
           View your profile page:{" "}
@@ -153,9 +153,10 @@ const ManageProfile = () => {
         </div>
       )}
       {!loading && (
-        <div>
+        <div className="my-1">
+          <b>Enter your bio information below</b>
           <div className="py-2">
-            <Label htmlFor="firstName">First name</Label>
+            <Label htmlFor="firstName">Your first name</Label>
             <Input
               id="firstName"
               value={data.firstName}
@@ -166,7 +167,7 @@ const ManageProfile = () => {
           </div>
           {/* last name */}
           <div className="py-2">
-            <Label htmlFor="lastName">Last name</Label>
+            <Label htmlFor="lastName">Your last name</Label>
             <Input
               id="lastName"
               placeholder="Your last name"
@@ -177,7 +178,7 @@ const ManageProfile = () => {
           </div>
           <div className="py-2">
             <Label htmlFor="title">
-              Enter title
+              Enter your title to display
               <BasicTooltip text={siteConfig.tooltips.profile.title}>
                 <Icons.infoCircle />
               </BasicTooltip>
@@ -192,7 +193,7 @@ const ManageProfile = () => {
           </div>
           <div className="py-2">
             <Label htmlFor="bio">
-              Enter bio
+              Enter your bio information to display
               <BasicTooltip text={siteConfig.tooltips.profile.bio}>
                 <Icons.infoCircle />
               </BasicTooltip>
@@ -296,7 +297,7 @@ const ManageProfile = () => {
           )}
         </div>
       )}
-      {loading &&  <Loading/>}
+      {loading && <Loading />}
       <div className="my-4 max-w-[400px]">
         {error && <div className="text-red-500">{error}</div>}
       </div>
