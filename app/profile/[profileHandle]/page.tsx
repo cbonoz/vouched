@@ -137,6 +137,8 @@ export default function ProfilePage({ params }: Props) {
     )
   }
 
+  const personString = vouchCount === 1 ? "person" : "people"
+
   return (
     <div>
       {yourPage && (
@@ -173,7 +175,9 @@ export default function ProfilePage({ params }: Props) {
           )}
         </div>
         <div className="basis-3/4">
-          <BasicCard title={`${fullName}'s Vouches (${vouchCount})`}>
+          <BasicCard
+            title={`${fullName}'s has vouched for ${vouchCount} ${personString}`}
+          >
             {!loading && !vouchCount && (
               <div className="my-4">
                 <div className="text-2xl font-bold">
@@ -214,21 +218,28 @@ export default function ProfilePage({ params }: Props) {
             )}
             {hasVouches && !loading && (
               <div>
-                <div className="flex">
-                  <Input
-                    value={skillFilter}
-                    onChange={(e) => setSkillFilter(e.target.value)}
-                    placeholder="Filter by vouch content"
-                    className="my-4"
-                  ></Input>
-                  {skillFilter && (
-                    // align center
-                    <TrashIcon
-                      className="cursor-pointer text-red-500 size-6 mt-6 ml-2"
-                      onClick={() => setSkillFilter("")}
-                    />
-                  )}
-                </div>
+                {vouchCount > 1 && (
+                  <div>
+                    <div>
+                      Search {vouchCount} {personString}
+                    </div>
+                    <div className="flex">
+                      <Input
+                        value={skillFilter}
+                        onChange={(e) => setSkillFilter(e.target.value)}
+                        placeholder="Filter by vouch content"
+                        className="my-4"
+                      ></Input>
+                      {skillFilter && (
+                        // align center
+                        <TrashIcon
+                          className="cursor-pointer text-red-500 size-6 mt-6 ml-2"
+                          onClick={() => setSkillFilter("")}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
                 <div className="mt-2">
                   {filteredVouches.map((vouch: any) => {
                     return (
