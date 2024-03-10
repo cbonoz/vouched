@@ -49,23 +49,25 @@ export default function IndexPage() {
               </div>
             ))}
           </div>
-          <div className="py-4">
-            {!isSignedIn && (
-              <Link href="/sign-in">
-                <Button className={buttonVariants({ variant: "default" })}>
-                  {/* Get Started */}
-                  Coming Soon
-                </Button>
-              </Link>
-            )}
-            {isSignedIn && (
-              <Link href="/profile?tab=manage">
-                <Button className={buttonVariants({ variant: "default" })}>
-                  Go to Profile
-                </Button>
-              </Link>
-            )}
-          </div>
+          {isLoaded && (
+            <div className="py-4">
+              {!isSignedIn && (
+                <Link href="/sign-in">
+                  <Button className={buttonVariants({ variant: "default" })}>
+                    {/* Get Started */}
+                    Login
+                  </Button>
+                </Link>
+              )}
+              {isSignedIn && (
+                <Link href="/profile?tab=manage">
+                  <Button className={buttonVariants({ variant: "default" })}>
+                    Go to Profile
+                  </Button>
+                </Link>
+              )}
+            </div>
+          )}
           {/* <div className="py-4">
             <RequestInvite />
           </div> */}
