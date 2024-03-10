@@ -176,7 +176,7 @@ export default function ProfilePage({ params }: Props) {
         </div>
         <div className="basis-3/4">
           <BasicCard
-            title={`${fullName}'s has vouched for ${vouchCount} ${personString}`}
+            title={`${fullName} has vouched for ${vouchCount} ${personString}`}
           >
             {!loading && !vouchCount && (
               <div className="my-4">
