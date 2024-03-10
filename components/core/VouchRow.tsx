@@ -17,7 +17,7 @@ const VouchRow = ({ vouch }: { vouch: Vouch }) => {
   const titleRow = (
     <div className="flex justify-between">
       <div className="font-bold">{fullName}</div>
-      <div className="mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-md font-semibold text-gray-700">
+      <div className="mr-2 inline-block rounded-full bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-700">
         {formatDate(vouch.createdAt, true)}
       </div>
     </div>
