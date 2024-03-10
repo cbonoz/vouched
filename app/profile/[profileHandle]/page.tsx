@@ -167,7 +167,7 @@ export default function ProfilePage({ params }: Props) {
         <div className="basis-1/4">
           <div className="text-2xl my-4">{getNameFromUser(user)}</div>
           <div>{user.handle}</div>
-          <div className="my-4">{user.bio}</div>
+          <div className="my-4 whitespace-pre-wrap">{user.bio}</div>
           {!locked && (
             <div>
               <i>{user.agreementText}</i>
