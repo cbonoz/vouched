@@ -47,12 +47,24 @@ const useAuthAxios = () => {
     return res.data
   }
 
+  const updateProfile = async (profileData) => {
+    const res = await axiosInstance.put('/profile', profileData);
+    return res.data;
+  };
+
+  const addEndorsement = async (handle, endorsementData) => {
+    const res = await axiosInstance.post(`/profile/${handle}/endorse`, endorsementData);
+    return res.data;
+  };
+
   return {
     getProfile,
     getUser,
     requestAccess,
     postVouch,
     authAxios: axiosInstance,
+    updateProfile,
+    addEndorsement,
   }
 }
 export default useAuthAxios

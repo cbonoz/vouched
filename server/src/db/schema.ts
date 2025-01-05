@@ -22,7 +22,6 @@ export const users = pgTable('users', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 });
-
 export const endorsements = pgTable('endorsements', {
   id: uuid('id').primaryKey().defaultRandom(),
   created_at: timestamp('created_at').defaultNow().notNull(),
@@ -42,7 +41,6 @@ export const endorsements = pgTable('endorsements', {
     table.endorser_id
   )
 }));
-
 export const endorserAccess = pgTable('endorser_access', {
   id: uuid('id').primaryKey().defaultRandom(),
   created_at: timestamp('created_at').defaultNow().notNull(),

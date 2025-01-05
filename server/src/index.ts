@@ -6,6 +6,7 @@ import { supabase } from "./lib/supabase";
 import admin from "./routes/admin";
 import user from "./routes/user";
 import endorsements from "./routes/endorsements";
+import profiles from "./routes/profiles";
 
 import { setInstance } from "./server/instance";
 
@@ -49,6 +50,7 @@ const protectedRoutes: FastifyPluginCallback = (instance, opts, done) => {
   admin.registerRoutes(instance);
   user.registerRoutes(instance);
   endorsements.registerRoutes(instance);
+  profiles.registerRoutes(instance);  // Add this line
 
   done();
 };

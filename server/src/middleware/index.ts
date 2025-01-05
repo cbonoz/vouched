@@ -1,9 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createClient } from '@supabase/supabase-js';
-import { getInstance } from "../server/instance";
+import { createClient } from "@supabase/supabase-js";
 import { isEmpty } from "../util";
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+import { db } from "../db";
+import { users } from "../db/schema";
+import { eq } from "drizzle-orm";
+import { supabase } from "@/lib/supabase";
 
 export interface VouchedUser {
   dbId: number;
@@ -13,39 +14,38 @@ export interface VouchedUser {
   lastName?: string;
 }
 
-export const requireUser = async (request: FastifyRequest, reply: FastifyReply): Promise<VouchedUser> => {
+export const requireUser = async (request: FastifyRequest, reply: FastifyReply): Promise<User> => {
   const authHeader = request.headers.authorization;
   if (!authHeader) {
     return reply.code(403).send();
   }
 
-  const token = authHeader.replace('Bearer ', '');
-  const { data: { user }, error } = await supabase.auth.getUser(token);
+  const token = authHeader.replace("Bearer ", "");
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
 
   if (error || !user) {
     return reply.code(403).send();
   }
 
-  // Get user id from db
-  const instance = getInstance();
-  let { rows } = await instance.pg.query("SELECT * FROM users WHERE external_id = $1", [user.id]);
-  if (isEmpty(rows)) {
+  // Get user from db
+  let dbUser = await db.select().from(users).where(eq(users.external_id, user.id));
+
+  if (!dbUser) {
     // Create user
-    await instance.pg.query("INSERT INTO users (external_id, email, first_name, last_name) VALUES ($1, $2, $3, $4)", [
-      user.id,
-      user.email,
-      user.user_metadata?.firstName,
-      user.user_metadata?.lastName,
-    ]);
-    const result = await instance.pg.query("SELECT * FROM users WHERE external_id = $1", [user.id]);
-    rows = result.rows;
+    const [newUser] = await db
+      .insert(users)
+      .values({
+        external_id: user.id,
+        email: user.email,
+        first_name: user.user_metadata?.firstName,
+        last_name: user.user_metadata?.lastName,
+      })
+      .returning();
+    dbUser = newUser;
   }
 
-  return {
-    dbId: rows[0].id,
-    id: user.id,
-    email: user.email,
-    firstName: user.user_metadata?.firstName,
-    lastName: user.user_metadata?.lastName
-  };
+  return dbUser;
 };

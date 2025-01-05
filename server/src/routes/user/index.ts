@@ -1,6 +1,6 @@
 import { requireUser } from "../../middleware";
 import { clerkClient, getAuth } from "@clerk/fastify";
-import { sendAccessRequestEmailToAdmin } from "../../email";
+import { sendAccessRequestEmailToAdmin } from "../../lib/email";
 import { FastifyInstance } from "fastify";
 import { createRequestConfig } from "../../util";
 

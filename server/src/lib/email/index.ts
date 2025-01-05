@@ -1,5 +1,5 @@
 import { TransactionalEmailsApi, SendSmtpEmail } from "@getbrevo/brevo";
-import { APP_NAME } from "../constants";
+import { APP_NAME } from "../../constants";
 
 let apiInstance = new TransactionalEmailsApi();
 
