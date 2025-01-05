@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { SignIn, UserProfile, useUser } from "@clerk/nextjs"
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Separator } from "@radix-ui/react-menubar"
 
 import { capitalize, humanError, isEmpty, profileUrl } from "@/lib/utils"
@@ -18,31 +18,27 @@ import Vouch from "@/components/core/Vouch"
 import { useVouches } from "../context/vouches"
 
 const ProfileSettings = () => {
-  const { user, isLoaded, isSignedIn } = useUser()
+  const session = useSession()
+  const supabase = useSupabaseClient()
   const [selectedTab, setSelectedTab] = useState("")
 
   const { vouches } = useVouches()
 
   useEffect(() => {
-    if (!isLoaded || !selectedTab) {
+    if (!selectedTab) {
       const getTab = () => {
         const tab = new URLSearchParams(window.location.search).get("tab")
         return tab || "manage"
       }
       setSelectedTab(getTab())
     }
-  }, [isLoaded, selectedTab])
+  }, [selectedTab])
 
   const router = useRouter()
 
-  if (!isLoaded) {
-    return
-  }
-
-  if (!isSignedIn) {
-    // push to sign in
+  if (!session) {
     router.push("/sign-in")
-    return
+    return null
   }
 
   const getManageHeading = () => {

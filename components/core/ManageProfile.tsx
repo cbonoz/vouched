@@ -4,8 +4,6 @@ import { get } from "http"
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ClerkLoading, SignIn, UserProfile, useUser } from "@clerk/nextjs"
-import { UserResource } from "@clerk/types"
 import { Label } from "@radix-ui/react-label"
 
 import { siteConfig } from "@/config/site"
@@ -32,6 +30,7 @@ const ManageProfile = () => {
   const [resultText, setResultText] = useState<string>("")
   const [error, setError] = useState<string | undefined>()
   const [data, setData] = useState<any>({})
+  const [emailConfirmed, setEmailConfirmed] = useState(false)
 
   const { toast } = useToast()
 
@@ -81,8 +80,30 @@ const ManageProfile = () => {
       setError("handle is required")
       return false
     }
+
+    if (!emailConfirmed) {
+      setError("Please confirm your email address")
+      return false
+    }
+
     setError(undefined)
     return true
+  }
+
+  async function verifyEmail() {
+    if (!user) return;
+    try {
+      await user.verifyEmail();
+      setEmailConfirmed(true);
+      toast({
+        title: "Success",
+        description: "Email verification sent. Please check your inbox.",
+        duration: 1500,
+      })
+    } catch (e) {
+      setError(humanError(e))
+      console.error(e)
+    }
   }
 
   async function save() {
@@ -254,6 +275,21 @@ const ManageProfile = () => {
             </div>
           </div>
           {/* handle */}
+          <div className="my-2 flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+            <div className="space-y-0.5">
+              <Label className="text-xl font-bold">Email Verification</Label>
+              <div>
+                {emailConfirmed ?
+                  "Email verified" :
+                  "Please verify your email address before activating your account"}
+              </div>
+            </div>
+            {!emailConfirmed && (
+              <Button onClick={verifyEmail} variant="outline">
+                Verify Email
+              </Button>
+            )}
+          </div>
           <div className="my-2 flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
             <div className="space-y-0.5">
               <Label className="text-xl font-bold">Activate account page</Label>

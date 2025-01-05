@@ -1,6 +1,7 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
-import { ClerkProvider } from "@clerk/nextjs"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { SessionContextProvider } from "@supabase/auth-helpers-react"
 
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
@@ -37,36 +38,32 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  const supabase = createClientComponentClient()
+
   return (
-    <>
-      <html lang="en" suppressHydrationWarning>
-        <head />
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
-        >
-          <ClerkProvider>
-            <VouchesProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-              >
-                <div className="relative flex min-h-screen flex-col">
-                  <SiteHeader />
-                  <div className="container mx-auto my-8 min-h-screen px-4">
-                    {children}
-                  </div>
-                  <SiteFooter />
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <SessionContextProvider supabaseClient={supabase}>
+          <VouchesProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <div className="container mx-auto my-8 min-h-screen px-4">
+                  {children}
                 </div>
-                {/* <TailwindIndicator /> */}
-              </ThemeProvider>
-            </VouchesProvider>
-          </ClerkProvider>
-        </body>
-      </html>
-    </>
+                <SiteFooter />
+              </div>
+              {/* <TailwindIndicator /> */}
+            </ThemeProvider>
+          </VouchesProvider>
+        </SessionContextProvider>
+      </body>
+    </html>
   )
 }

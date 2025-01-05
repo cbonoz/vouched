@@ -1,5 +1,3 @@
-import { User } from "@clerk/clerk-js/dist/types/core/resources/User"
-
 import { Vouch } from "@/lib/types"
 
 export const createDemoProfile = (

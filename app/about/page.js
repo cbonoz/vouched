@@ -4,8 +4,14 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { createClient } from '@supabase/supabase-js'
 
 import { Button, buttonVariants } from "@/components/ui/button"
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
 
 const SECTIONS = [
   "Vouched is a place to vouch for great people from your network.",
@@ -19,6 +25,16 @@ export default function About() {
   const [result, setResult] = useState()
 
   const router = useRouter()
+
+  const handleVouchClick = async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) {
+      router.push('/auth')
+      return
+    }
+    router.push('/vouch')
+  }
+
   return (
     <div className="about-page">
       <div className="text-2xl">Vouched</div>
@@ -43,9 +59,7 @@ export default function About() {
         {/* Create profile */}
         <Button
           className={buttonVariants({ variant: "default" })}
-          onClick={() => {
-            router.push("/vouch")
-          }}
+          onClick={handleVouchClick}
         >
           Vouch for a connection
         </Button>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import RenderResult from "next/dist/server/render-result"
-import { SignIn, useUser } from "@clerk/nextjs"
+import { useSession } from '@supabase/auth-helpers-react'
 import { CheckCheckIcon, CheckIcon, Trash, TrashIcon } from "lucide-react"
 
 import { capitalize, humanError, isEmpty, profileUrl } from "@/lib/utils"
@@ -17,26 +17,19 @@ import Loading from "./Loading"
 import RenderObject from "./RenderObject"
 
 const AccessRequests = () => {
-  const { isSignedIn, user, isLoaded } = useUser()
+  const session = useSession()
   const [error, setError] = useState<string | undefined>()
   const [data, setData] = useState<any>({})
 
   const { authAxios } = useAuthAxios()
-
-  const {
-    loading,
-    accessRequests,
-    getAccessRequests,
-    rejectRequest,
-    acceptRequest,
-  } = useVouches()
+  const { loading, accessRequests, getAccessRequests, rejectRequest, acceptRequest } = useVouches()
 
   useEffect(() => {
-    if (!isLoaded || !user) {
+    if (!session?.user) {
       return
     }
     getAccessRequests()
-  }, [user, isLoaded])
+  }, [session])
 
   const hasRequests = !isEmpty(accessRequests)
 

@@ -1,23 +1,16 @@
-import Link from "next/link"
-import { SignIn, SignUp } from "@clerk/nextjs"
+"use client"
 
-import { siteConfig } from "@/config/site"
+import { Auth } from "@supabase/auth-ui-react"
+import { ThemeSupa } from "@supabase/auth-ui-shared"
 
-const SignInPage = () => {
+import { supabase } from "@/lib/supabase"
+
+export default function SignIn() {
   return (
-    <div>
-      <div className="center-content my-12 flex flex-row justify-center">
-        <SignIn afterSignInUrl={siteConfig.defaultHome} signUpUrl="/sign-up" />
-      </div>
-      <div className="text-md my-4 flex flex-row content-center justify-center">
-        {/* No account? Sign up&nbsp;
-        <Link className="text-blue-500" href="/sign-up">
-          here
-        </Link>
-        . */}
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="w-full max-w-md">
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
       </div>
     </div>
   )
 }
-
-export default SignInPage

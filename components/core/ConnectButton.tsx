@@ -1,5 +1,7 @@
+"use client"
+
 import Link from "next/link"
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 
 import { Button } from "@/components/ui/button"
 
@@ -8,24 +10,26 @@ function ConnectButton({
 }: {
   buttonType?: "submit" | "reset" | "button" | undefined
 }) {
+  const session = useSession()
+  const supabase = useSupabaseClient()
+
+  if (session) {
+    return (
+      <Button
+        onClick={async () => {
+          await supabase.auth.signOut()
+          window.location.href = "/"
+        }}
+      >
+        Sign Out
+      </Button>
+    )
+  }
+
   return (
-    <div className="connect-button">
-      <SignedIn>
-        {/* Mount the UserButton component */}
-        <UserButton
-          //  redirect on logout
-          afterSignOutUrl="/"
-        />
-      </SignedIn>
-      <SignedOut>
-        {/* Signed out users get sign in button */}
-        <div>
-          <Button style={{ display: "block" }} type={buttonType}>
-            <Link href="/sign-in">Sign in</Link>
-          </Button>
-        </div>
-      </SignedOut>
-    </div>
+    <Button type={buttonType}>
+      <Link href="/sign-in">Sign in</Link>
+    </Button>
   )
 }
 

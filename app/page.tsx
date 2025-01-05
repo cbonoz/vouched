@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useUser } from "@clerk/nextjs"
+import { useSession } from '@supabase/auth-helpers-react'
 
 import { siteConfig } from "@/config/site"
 import { axiosInstance } from "@/lib/api"
@@ -15,6 +15,7 @@ import { Icons } from "@/components/icons"
 
 export default function IndexPage() {
   const [homeProfiles, setHomeProfiles] = useState<any[]>([])
+  const { data: session, isLoading } = useSession()
 
   useEffect(() => {
     async function fetchHomeProfiles() {
@@ -29,7 +30,7 @@ export default function IndexPage() {
     }
     fetchHomeProfiles()
   }, [])
-  const { isSignedIn, user, isLoaded } = useUser()
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex flex-row gap-8">
@@ -49,17 +50,16 @@ export default function IndexPage() {
               </div>
             ))}
           </div>
-          {isLoaded && (
+          {!isLoading && (
             <div className="py-4">
-              {!isSignedIn && (
+              {!session && (
                 <Link href="/sign-in">
                   <Button className={buttonVariants({ variant: "default" })}>
-                    {/* Get Started */}
                     Login
                   </Button>
                 </Link>
               )}
-              {isSignedIn && (
+              {session && (
                 <Link href="/profile?tab=manage">
                   <Button className={buttonVariants({ variant: "default" })}>
                     Go to Profile
@@ -68,18 +68,7 @@ export default function IndexPage() {
               )}
             </div>
           )}
-          {/* <div className="py-4">
-            <RequestInvite />
-          </div> */}
         </div>
-        {/* <Link
-          target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link> */}
 
         <div className="basis-1/2 justify-center">
           <Image

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react"
 import { TrashIcon } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 import { getNameFromUser, humanError, isEmpty, isValidEmail } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -33,6 +34,8 @@ interface Props {
 }
 
 export default function ProfilePage({ params }: Props) {
+  const session = useSession()
+  const supabase = useSupabaseClient()
   const { profileHandle } = params
   const [profile, setProfile] = useState<any>({})
   const [loading, setLoading] = useState(true)
@@ -158,7 +161,7 @@ export default function ProfilePage({ params }: Props) {
       )}
       <div className="flex flex-row gap-8">
         <Avatar className="w-[256px] h-[256px]">
-          <AvatarImage src={user.imageUrl || ""} />
+          <AvatarImage src={user.avatar_url || ""} />
           <AvatarFallback>{fullName}</AvatarFallback>
         </Avatar>
       </div>

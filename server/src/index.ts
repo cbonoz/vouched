@@ -1,13 +1,12 @@
 import "./loadEnv";
 
 import Fastify, { FastifyPluginCallback } from "fastify";
-import { clerkClient, clerkPlugin, getAuth } from "@clerk/fastify";
+import cors from "@fastify/cors";
+import { supabase } from "./lib/supabase";
 import admin from "./routes/admin";
 import user from "./routes/user";
 import endorsements from "./routes/endorsements";
-import cors from "@fastify/cors";
 
-import { initDB } from "./db/migrate";
 import { setInstance } from "./server/instance";
 
 const fastifyListRoutes = require("fastify-list-routes");
@@ -22,10 +21,31 @@ const DATABASE_URL = process.env.DATABASE_URL as string;
 fastify.register(fastifyListRoutes, { colors: true });
 
 /**
- * Register Clerk only for a subset of your routes
+ * Supabase Auth middleware
+ */
+const auth = async (request: any, reply: any) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader) {
+    reply.code(401).send({ error: "No authorization header" });
+    return;
+  }
+
+  const token = authHeader.replace("Bearer ", "");
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+
+  if (error || !user) {
+    reply.code(401).send({ error: "Invalid token" });
+    return;
+  }
+
+  request.user = user;
+};
+
+/**
+ * Register protected routes with Supabase auth middleware
  */
 const protectedRoutes: FastifyPluginCallback = (instance, opts, done) => {
-  instance.register(clerkPlugin);
+  instance.addHook('preHandler', auth);
   admin.registerRoutes(instance);
   user.registerRoutes(instance);
   endorsements.registerRoutes(instance);
@@ -44,10 +64,6 @@ const publicRoutes: FastifyPluginCallback = (instance, opts, done) => {
 
 const start = async () => {
   try {
-    await initDB();
-    await fastify.register(require("@fastify/postgres"), {
-      connectionString: DATABASE_URL,
-    });
     await fastify.register(cors, {
       // put your options here
       origin: "*",
@@ -64,8 +80,7 @@ const start = async () => {
     fastify.register(publicRoutes);
     setInstance(fastify);
     await fastify.listen({ port: PORT });
-    // console.log(`Server listening on port ${PORT}`);
-  } catch (err) {
+    // console.log(`Server listening on port ${PORT}`);  } catch (err) {
     // fastify.log.error(err);
     process.exit(1);
   }

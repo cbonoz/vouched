@@ -1,9 +1,9 @@
 {
   "name": "vouched-fastify",
-  "description": "Fastify server with Clerk authentication for the vouched app",
+  "description": "Fastify server with Supabase authentication for the vouched app",
   "private": true,
   "keywords": [
-    "clerk",
+    "supabase",
     "nextjs",
     "fastify",
     "authentication"
@@ -13,7 +13,6 @@
     "dev": "npx nodemon src/index.ts"
   },
   "dependencies": {
-    "@clerk/fastify": "latest",
     "@fastify/cors": "^9.0.0",
     "@fastify/postgres": "^5.2.2",
     "@fastify/rate-limit": "^9.1.0",

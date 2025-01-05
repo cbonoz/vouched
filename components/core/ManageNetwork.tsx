@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import RenderResult from "next/dist/server/render-result"
-import { SignIn, useUser } from "@clerk/nextjs"
+import { useSession } from '@supabase/auth-helpers-react'
 import { Trash, TrashIcon } from "lucide-react"
 
 import { Vouch } from "@/lib/types"
@@ -17,20 +17,19 @@ import Loading from "./Loading"
 import RenderObject from "./RenderObject"
 
 const ManageNetwork = () => {
-  const { isSignedIn, user, isLoaded } = useUser()
+  const session = useSession()
   const [error, setError] = useState<string | undefined>()
   const [data, setData] = useState<any>({})
 
   const { authAxios } = useAuthAxios()
-
   const { vouches, loading, deleteVouch, getVouches } = useVouches()
 
   useEffect(() => {
-    if (!isLoaded || !user) {
+    if (!session?.user) {
       return
     }
     getVouches()
-  }, [user, isLoaded])
+  }, [session])
 
   const hasVouches = !isEmpty(vouches)
 

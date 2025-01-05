@@ -1,16 +1,15 @@
-// Create axios hook with session
-import { useAuth } from "@clerk/nextjs"
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import { axiosInstance } from "@/lib/api"
 
 const useAuthAxios = () => {
-  const { getToken } = useAuth()
+  const supabase = createClientComponentClient()
 
   axiosInstance.interceptors.request.use(
     async (config) => {
-      const token = await getToken()
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session?.access_token) {
+        config.headers.Authorization = `Bearer ${session.access_token}`
       }
       return config
     },
