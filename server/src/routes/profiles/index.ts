@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { eq } from 'drizzle-orm';
-import { db, profiles, vouches, accessRequests } from '../../db';
+import { db, profiles, endorsements, accessRequests } from '../../db';
 
 export default async function (fastify: FastifyInstance) {
   fastify.get('/profile/:handle', async (request, reply) => {
@@ -16,8 +16,7 @@ export default async function (fastify: FastifyInstance) {
     }
 
     const userVouches = await db.select()
-      .from(vouches)
-      .where(eq(vouches.to_email, profile[0].email));
+    .from(vouches)
 
     return {
       ...profile[0],

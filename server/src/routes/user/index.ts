@@ -1,8 +1,8 @@
 import { requireUser } from "../../middleware";
-import { clerkClient, getAuth } from "@clerk/fastify";
 import { sendAccessRequestEmailToAdmin } from "../../lib/email";
 import { FastifyInstance } from "fastify";
 import { createRequestConfig } from "../../util";
+import { supabase } from "@/lib/supabase";
 
 const registerRoutes = (instance: FastifyInstance) => {
   instance.register(
@@ -25,12 +25,6 @@ const registerRoutes = (instance: FastifyInstance) => {
           lastName,
           user.dbId,
         ]);
-
-        // Update user
-        await clerkClient.users.updateUser(user.id, {
-          firstName,
-          lastName,
-        });
 
         const res = await requireUser(request, reply);
         return res;
