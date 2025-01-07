@@ -18,6 +18,9 @@ func main() {
 
 	r := gin.Default()
 
+	// Migrate gorm
+	config.InitGorm()
+
 	// Initialize Supabase client
 	config.InitSupabase()
 

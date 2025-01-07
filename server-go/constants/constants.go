@@ -8,6 +8,8 @@ import (
 var (
 	SUPABASE_URL      string
 	SUPABASE_ANON_KEY string
+	DATABASE_URL string
+	BREVO_API_KEY string
 	ENV               string
 )
 
@@ -38,11 +40,8 @@ func Init() error {
 	// Set constants from viper
 	SUPABASE_URL = viper.GetString("SUPABASE_URL")
 	SUPABASE_ANON_KEY = viper.GetString("SUPABASE_ANON_KEY")
-
-	// Validate required values
-	if SUPABASE_URL == "" || SUPABASE_ANON_KEY == "" {
-		return fmt.Errorf("missing required environment variables")
-	}
+	DATABASE_URL = viper.GetString("DATABASE_URL")
+	BREVO_API_KEY = viper.GetString("BREVO_API_KEY")
 
 	return nil
 }
