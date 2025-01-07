@@ -46,5 +46,5 @@ export const requireUser = async (request: FastifyRequest, reply: FastifyReply):
     dbUser = newUser as any;
   }
 
-  return dbUser as ;
+  return dbUser;
 };
